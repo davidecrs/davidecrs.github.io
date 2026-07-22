@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Davide Corso — Bioinformatician & Astrobiologist</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16.png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -323,6 +327,43 @@
     transform: translateY(-6.5px) rotate(-45deg);
   }
 
+  /* NAV CONTROLS WRAPPER (lang toggle + hamburger) */
+  .nav-controls {
+    display: flex;
+    align-items: center;
+    gap: 1.1rem;
+  }
+
+  /* LANGUAGE TOGGLE */
+  .lang-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 0.3rem 0.7rem;
+    cursor: pointer;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    transition: border-color 0.2s;
+  }
+
+  .lang-toggle:hover { border-color: var(--accent); }
+
+  .lang-option {
+    color: var(--text3);
+    transition: color 0.2s, font-weight 0.2s;
+  }
+
+  .lang-option.active {
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .lang-sep { color: var(--text3); opacity: 0.5; }
+
   /* MOBILE DRAWER — centered modal */
   .nav-overlay {
     display: none;
@@ -350,6 +391,10 @@
     align-items: center;
     gap: 1.6rem;
     box-shadow: 0 0 60px rgba(0,0,0,0.6), 0 0 30px rgba(0,200,255,0.06);
+  }
+
+  body.light .nav-modal {
+    background: rgba(240,242,245,0.97);
   }
 
   .nav-modal-close {
@@ -383,7 +428,6 @@
   @media (max-width: 1300px) {
     nav {
       padding: 1rem 1.5rem;
-      flex-direction: row-reverse;
     }
     .nav-links { display: none; }
     .nav-hamburger { display: flex; }
@@ -1525,26 +1569,33 @@
 
 <!-- NAV -->
 <nav>
-  <button class="nav-hamburger" id="hamburger" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
   <a href="#hero" class="nav-logo" aria-label="Home">
     <svg width="36" height="18" viewBox="0 0 36 18" fill="none" xmlns="http://www.w3.org/2000/svg">
       <text x="18" y="13" text-anchor="middle" font-family="'DM Mono', monospace" font-size="15" font-weight="400" letter-spacing="1"><tspan class="logo-d">D·</tspan><tspan class="logo-c">C</tspan></text>
     </svg>
   </a>
+  <div class="nav-controls">
+    <button class="lang-toggle" id="lang-toggle" aria-label="Switch language / Cambia lingua">
+      <span class="lang-option lang-en active">EN</span>
+      <span class="lang-sep">/</span>
+      <span class="lang-option lang-it">IT</span>
+    </button>
+    <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
   <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#research">Research</a></li>
-    <li><a href="#output">Scientific Output</a></li>
-    <li><a href="#field">Field</a></li>
-    <li><a href="#experience">Experience</a></li>
-    <li><a href="#education">Education</a></li>
-    <li><a href="#academia">Academia</a></li>
-    <li><a href="#affiliations">Affiliations</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#dive">Dive</a></li>
-    <li><a href="#contact">Contact</a></li>
+    <li><a href="#about" data-i18n="nav.about">About</a></li>
+    <li><a href="#research" data-i18n="nav.research">Research</a></li>
+    <li><a href="#output" data-i18n="nav.output">Scientific Output</a></li>
+    <li><a href="#field" data-i18n="nav.field">Field</a></li>
+    <li><a href="#experience" data-i18n="nav.experience">Experience</a></li>
+    <li><a href="#education" data-i18n="nav.education">Education</a></li>
+    <li><a href="#academia" data-i18n="nav.academia">Academia</a></li>
+    <li><a href="#affiliations" data-i18n="nav.affiliations">Affiliations</a></li>
+    <li><a href="#skills" data-i18n="nav.skills">Skills</a></li>
+    <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
+    <li><a href="#dive" data-i18n="nav.dive">Dive</a></li>
   </ul>
 </nav>
 
@@ -1552,31 +1603,31 @@
 <div class="nav-overlay" id="nav-drawer">
   <div class="nav-modal">
     <button class="nav-modal-close" onclick="closeDrawer()" aria-label="Close menu">✕</button>
-    <a href="#hero"        onclick="closeDrawer()">Home</a>
-    <a href="#about"       onclick="closeDrawer()">About</a>
-    <a href="#research"    onclick="closeDrawer()">Research</a>
-    <a href="#output"      onclick="closeDrawer()">Scientific Output</a>
-    <a href="#field"       onclick="closeDrawer()">Field</a>
-    <a href="#experience"  onclick="closeDrawer()">Experience</a>
-    <a href="#education"   onclick="closeDrawer()">Education</a>
-    <a href="#academia"    onclick="closeDrawer()">Academia</a>
-    <a href="#affiliations" onclick="closeDrawer()">Affiliations</a>
-    <a href="#skills"      onclick="closeDrawer()">Skills</a>
-    <a href="#dive"        onclick="closeDrawer()">Dive</a>
-    <a href="#contact"     onclick="closeDrawer()">Contact</a>
+    <a href="#hero"        onclick="closeDrawer()" data-i18n="nav.home">Home</a>
+    <a href="#about"       onclick="closeDrawer()" data-i18n="nav.about">About</a>
+    <a href="#research"    onclick="closeDrawer()" data-i18n="nav.research">Research</a>
+    <a href="#output"      onclick="closeDrawer()" data-i18n="nav.output">Scientific Output</a>
+    <a href="#field"       onclick="closeDrawer()" data-i18n="nav.field">Field</a>
+    <a href="#experience"  onclick="closeDrawer()" data-i18n="nav.experience">Experience</a>
+    <a href="#education"   onclick="closeDrawer()" data-i18n="nav.education">Education</a>
+    <a href="#academia"    onclick="closeDrawer()" data-i18n="nav.academia">Academia</a>
+    <a href="#affiliations" onclick="closeDrawer()" data-i18n="nav.affiliations">Affiliations</a>
+    <a href="#skills"      onclick="closeDrawer()" data-i18n="nav.skills">Skills</a>
+    <a href="#contact"     onclick="closeDrawer()" data-i18n="nav.contact">Contact</a>
+    <a href="#dive"        onclick="closeDrawer()" data-i18n="nav.dive">Dive</a>
   </div>
 </div>
 
 <!-- HERO -->
 <section id="hero">
-  <div class="hero-label">Researcher · Bioinformatician · Astrobiologist</div>
+  <div class="hero-label" data-i18n="hero.label">Researcher · Bioinformatician · Astrobiologist</div>
   <h1 class="hero-name">Davide <span>Corso</span></h1>
   <div class="hero-photo">
     <img src="img/IMG_0294.jpg" alt="Davide Corso">
     <!-- <div class="hero-photo-placeholder">DC</div> -->
   </div>
-  <p class="hero-tagline">Bridging microbial ecology, metagenomics and space science — from deep-sea hydrothermal vents to Martian analogues.</p>
-  <p class="hero-position">→ Research Fellow, CNR-IRSA — Roma Montelibretti</p>
+  <p class="hero-tagline" data-i18n="hero.tagline">Bridging microbial ecology, metagenomics and space science — from deep-sea hydrothermal vents to Martian analogues.</p>
+  <p class="hero-position" data-i18n="hero.position">→ Research Fellow, CNR-IRSA — Roma Montelibretti</p>
   <div class="hero-links">    <a href="https://github.com/davidecrs" class="hero-link" target="_blank">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
       GitHub
@@ -1594,18 +1645,18 @@
       ORCID
     </a>
   </div>
-  <div class="hero-scroll"><div class="scroll-line"></div><a href="#about" class="scroll-text">Scroll to explore</a><div class="scroll-line right"></div></div>
+  <div class="hero-scroll"><div class="scroll-line"></div><a href="#about" class="scroll-text" data-i18n="hero.scroll">Scroll to explore</a><div class="scroll-line right"></div></div>
 </section>
 
 <div class="section-divider"></div>
 
 <!-- ABOUT -->
 <section id="about">
-  <div class="section-label">// 00 — About</div>
-  <h2 class="section-title">Who I Am</h2>
+  <div class="section-label" data-i18n="about.label">// 00 — About</div>
+  <h2 class="section-title" data-i18n="about.title">Who I Am</h2>
   <div class="about-text">
-    <p>I am a computational biologist driven by a single question: how does life adapt to the most extreme conditions on Earth — and what does that tell us about the possibility of life elsewhere? I build bioinformatic tools and pipelines to decode microbial communities, then apply them to environments that push biology to its limits — from deep-sea hydrothermal vents to hypersaline planetary analogues.</p>
-    <p>Currently a Research Fellow at CNR, my work combines field campaigns — including a dive at 2,518 metres aboard the HOV Alvin — with high-performance computational analysis. I am also increasingly interested in the theoretical principles that govern how microbial communities sustain cooperation and stability under extreme energetic constraints.</p>
+    <p data-i18n="about.p1">I am a computational biologist driven by a single question: how does life adapt to the most extreme conditions on Earth — and what does that tell us about the possibility of life elsewhere? I build bioinformatic tools and pipelines to decode microbial communities, then apply them to environments that push biology to its limits — from deep-sea hydrothermal vents to hypersaline planetary analogues.</p>
+    <p data-i18n="about.p2">Currently a Research Fellow at CNR, my work combines field campaigns — including a dive at 2,518 metres aboard the HOV Alvin — with high-performance computational analysis. I am also increasingly interested in the theoretical principles that govern how microbial communities sustain cooperation and stability under extreme energetic constraints.</p>
   </div>
 </section>
 
@@ -1613,36 +1664,36 @@
 
 <!-- RESEARCH -->
 <section id="research">
-  <div class="section-label">// 01 — Research</div>
-  <h2 class="section-title">Research Areas</h2>
+  <div class="section-label" data-i18n="research.label">// 01 — Research</div>
+  <h2 class="section-title" data-i18n="research.title">Research Areas</h2>
   <div class="research-grid">
     <div class="research-card">
       <div class="research-card-header">
         <div class="research-icon">🧬</div>
-        <h3>Environmental Metagenomics</h3>
+        <h3 data-i18n="research.card1.title">Environmental Metagenomics</h3>
       </div>
-      <p>Characterising microbial communities in extreme and aquatic environments — from constructed wetlands and coastal aquifers to deep-sea hydrothermal vents — using 16S rRNA sequencing and whole-metagenome approaches.</p>
+      <p data-i18n="research.card1.desc">Characterising microbial communities in extreme and aquatic environments — from constructed wetlands and coastal aquifers to deep-sea hydrothermal vents — using 16S rRNA sequencing and whole-metagenome approaches.</p>
     </div>
     <div class="research-card">
       <div class="research-card-header">
         <div class="research-icon">🪐</div>
-        <h3>Astrobiology & Planetary Analogues</h3>
+        <h3 data-i18n="research.card2.title">Astrobiology & Planetary Analogues</h3>
       </div>
-      <p>Investigating hypersaline and geochemically extreme environments as analogues for Mars and other planetary bodies, with a focus on biosignature formation and the potential for life in extreme conditions.</p>
+      <p data-i18n="research.card2.desc">Investigating hypersaline and geochemically extreme environments as analogues for Mars and other planetary bodies, with a focus on biosignature formation and the potential for life in extreme conditions.</p>
     </div>
     <div class="research-card">
       <div class="research-card-header">
         <div class="research-icon">⚙️</div>
-        <h3>Bioinformatics Tool Development</h3>
+        <h3 data-i18n="research.card3.title">Bioinformatics Tool Development</h3>
       </div>
-      <p>Designing and maintaining flexible, reproducible pipelines and R packages for metagenomic analysis, spatial transcriptomics, and biological network visualisation — built for scientists without deep computational backgrounds.</p>
+      <p data-i18n="research.card3.desc">Designing and maintaining flexible, reproducible pipelines and R packages for metagenomic analysis, spatial transcriptomics, and biological network visualisation — built for scientists without deep computational backgrounds.</p>
     </div>
     <div class="research-card">
       <div class="research-card-header">
         <div class="research-icon">🛰️</div>
-        <h3>Earth Observation & Space Data</h3>
+        <h3 data-i18n="research.card4.title">Earth Observation & Space Data</h3>
       </div>
-      <p>Applying satellite remote sensing, geospatial analysis and climate system monitoring to environmental research, integrating orbital data with ground-truth biological and geochemical observations.</p>
+      <p data-i18n="research.card4.desc">Applying satellite remote sensing, geospatial analysis and climate system monitoring to environmental research, integrating orbital data with ground-truth biological and geochemical observations.</p>
     </div>
   </div>
 </section>
@@ -1651,12 +1702,12 @@
 
 <!-- SCIENTIFIC OUTPUT -->
 <section id="output">
-  <div class="section-label">// 02 — Scientific Output</div>
-  <h2 class="section-title">Scientific Output</h2>
+  <div class="section-label" data-i18n="output.label">// 02 — Scientific Output</div>
+  <h2 class="section-title" data-i18n="output.title">Scientific Output</h2>
 
-  <h3 class="sub-section-title">Publications</h3>
+  <h3 class="sub-section-title" data-i18n="output.publications">Publications</h3>
   <div class="pub-section">
-    <div class="pub-section-title">Published</div>
+    <div class="pub-section-title" data-i18n="output.published">Published</div>
 
     <div class="pub-item">
       <div class="pub-number">[1]</div>
@@ -1731,7 +1782,7 @@
     </div>
   </div>
 
-  <h3 class="sub-section-title">Tools & Packages</h3>
+  <h3 class="sub-section-title" data-i18n="output.tools">Tools & Packages</h3>
   <div class="software-grid">
 
     <div class="software-card">
@@ -1739,7 +1790,7 @@
         <div class="software-name">Geomosaic</div>
         <a href="https://github.com/giovannellilab/Geomosaic" class="software-link" target="_blank">GitHub →</a>
       </div>
-      <p class="software-desc">A flexible metagenomic pipeline combining read-based analysis, assemblies and MAGs with downstream biological and geochemical data integration. Designed for reproducibility and ease of use without deep bioinformatic expertise.</p>
+      <p class="software-desc" data-i18n="output.tool1.desc">A flexible metagenomic pipeline combining read-based analysis, assemblies and MAGs with downstream biological and geochemical data integration. Designed for reproducibility and ease of use without deep bioinformatic expertise.</p>
       <div class="tags">
         <span class="tag">Python</span>
         <span class="tag">Snakemake</span>
@@ -1753,7 +1804,7 @@
         <div class="software-name">polygonPlot</div>
         <a href="https://github.com/giovannellilab/polygonPlot" class="software-link" target="_blank">GitHub →</a>
       </div>
-      <p class="software-desc">An R package for multivariate data range visualisation, displaying 3–6 variables simultaneously with min/max and mean for each — ideal for comparing environmental profiles across sampling sites.</p>
+      <p class="software-desc" data-i18n="output.tool2.desc">An R package for multivariate data range visualisation, displaying 3–6 variables simultaneously with min/max and mean for each — ideal for comparing environmental profiles across sampling sites.</p>
       <div class="tags">
         <span class="tag">R</span>
         <span class="tag">CRAN</span>
@@ -1767,7 +1818,7 @@
         <div class="software-name">spatialDE</div>
         <a href="https://bioconductor.org/packages/release/bioc/html/spatialDE.html" class="software-link" target="_blank">Bioconductor →</a>
       </div>
-      <p class="software-desc">An R/Bioconductor wrapper for the SpatialDE Python library, enabling identification of spatially variable genes in spatial transcriptomics data directly from R with a native Bioconductor interface.</p>
+      <p class="software-desc" data-i18n="output.tool3.desc">An R/Bioconductor wrapper for the SpatialDE Python library, enabling identification of spatially variable genes in spatial transcriptomics data directly from R with a native Bioconductor interface.</p>
       <div class="tags">
         <span class="tag">R</span>
         <span class="tag">Bioconductor</span>
@@ -1780,7 +1831,7 @@
         <div class="software-name">itGraph</div>
         <a href="https://sales.bio.unipd.it/itgraph/" class="software-link" target="_blank">Web App →</a>
       </div>
-      <p class="software-desc">A web application for interactive visualisation of biological regulatory networks, combining multiple layout algorithms and network types to highlight functional modules within biological pathways.</p>
+      <p class="software-desc" data-i18n="output.tool4.desc">A web application for interactive visualisation of biological regulatory networks, combining multiple layout algorithms and network types to highlight functional modules within biological pathways.</p>
       <div class="tags">
         <span class="tag">React.js</span>
         <span class="tag">Python</span>
@@ -1794,7 +1845,7 @@
         <div class="software-name">MyoData</div>
         <a href="https://myodata.bio.unipd.it" class="software-link" target="_blank">Web App →</a>
       </div>
-      <p class="software-desc">An expression knowledgebase at single cell and nucleus level for the discovery of coding–noncoding RNA functional interactions in skeletal muscle, integrating miRNA, lncRNA and mRNA co-regulation networks.</p>
+      <p class="software-desc" data-i18n="output.tool5.desc">An expression knowledgebase at single cell and nucleus level for the discovery of coding–noncoding RNA functional interactions in skeletal muscle, integrating miRNA, lncRNA and mRNA co-regulation networks.</p>
       <div class="tags">
         <span class="tag">React.js</span>
         <span class="tag">Python</span>
@@ -1811,8 +1862,8 @@
 
 <!-- FIELD EXPERIENCE -->
 <section id="field">
-  <div class="section-label">// 03 — Field</div>
-  <h2 class="section-title">Field Experience</h2>
+  <div class="section-label" data-i18n="field.label">// 03 — Field</div>
+  <h2 class="section-title" data-i18n="field.title">Field Experience</h2>
 
   <div class="field-timeline">
 
@@ -1820,28 +1871,28 @@
       <div class="field-date">February 2024</div>
       <div class="field-title">🤿 Alvin Deep Dive #5229</div>
       <div class="field-location">📍 East Pacific Rise, 9°50'N — Pacific Ocean, 2,518 m depth</div>
-      <div class="field-desc">Participated as starboard observer aboard the deep-submergence vehicle HOV Alvin for an 8-hour dive to sample hydrothermal vent fluids and biofilms at the Tica and Biovent sites. One of fewer than a thousand people to have dived in Alvin.</div>
+      <div class="field-desc" data-i18n="field.item1.desc">Participated as starboard observer aboard the deep-submergence vehicle HOV Alvin for an 8-hour dive to sample hydrothermal vent fluids and biofilms at the Tica and Biovent sites. One of fewer than a thousand people to have dived in Alvin.</div>
     </div>
 
     <div class="field-item">
       <div class="field-date">January – February 2024</div>
       <div class="field-title">🚢 AT50-20 Oceanographic Expedition — R/V Atlantis</div>
       <div class="field-location">📍 East Pacific Rise, 9°50'N — 104°17'W</div>
-      <div class="field-desc">31-day NSF-funded oceanographic cruise aboard the WHOI research vessel Atlantis. Sampled high- and low-temperature hydrothermal vent fluids at 2,500 m depth using titanium syringe samplers at sites Tica, Biovent, Bio9, L-Vent and V-Vent.</div>
+      <div class="field-desc" data-i18n="field.item2.desc">31-day NSF-funded oceanographic cruise aboard the WHOI research vessel Atlantis. Sampled high- and low-temperature hydrothermal vent fluids at 2,500 m depth using titanium syringe samplers at sites Tica, Biovent, Bio9, L-Vent and V-Vent.</div>
     </div>
 
     <div class="field-item">
       <div class="field-date">April 2024</div>
       <div class="field-title">🪨 ICDP-DIVE — Ivrea-Verbano Zone</div>
       <div class="field-location">📍 Ivrea-Verbano, Northern Italy</div>
-      <div class="field-desc">Participated in the International Continental Drilling Program campaign, responsible for collection, processing and preservation of rock core samples from the lower continental crust exposed at the Ivrea-Verbano Zone.</div>
+      <div class="field-desc" data-i18n="field.item3.desc">Participated in the International Continental Drilling Program campaign, responsible for collection, processing and preservation of rock core samples from the lower continental crust exposed at the Ivrea-Verbano Zone.</div>
     </div>
 
     <div class="field-item">
       <div class="field-date">2025 – Ongoing</div>
       <div class="field-title">💧 VFN Valle del Sacco — Groundwater Sampling</div>
       <div class="field-location">📍 Sacco River Basin, Lazio, Italy</div>
-      <div class="field-desc">Multiple sampling campaigns across 2025 to characterise the natural geochemical background of groundwater and soil in the Sacco River national interest site (SIN), in collaboration with CNR-IRSA and ARPA Lazio.</div>
+      <div class="field-desc" data-i18n="field.item4.desc">Multiple sampling campaigns across 2025 to characterise the natural geochemical background of groundwater and soil in the Sacco River national interest site (SIN), in collaboration with CNR-IRSA and ARPA Lazio.</div>
     </div>
 
   </div>
@@ -1851,29 +1902,29 @@
 
 <!-- EXPERIENCE -->
 <section id="experience">
-  <div class="section-label">// 04 — Experience</div>
-  <h2 class="section-title">Experience</h2>
+  <div class="section-label" data-i18n="experience.label">// 04 — Experience</div>
+  <h2 class="section-title" data-i18n="experience.title">Experience</h2>
   <div class="field-timeline">
 
     <div class="field-item">
       <div class="field-date">2024 — Present</div>
-      <div class="field-title">Postdoctoral Research Fellow</div>
+      <div class="field-title" data-i18n="experience.item1.title">Postdoctoral Research Fellow</div>
       <div class="field-location">📍 CNR-IRSA — Roma Montelibretti</div>
-      <div class="field-desc">Research on microbial communities in extreme and aquatic environments, with a focus on metagenomics, antibiotic resistance genomics, and astrobiology. Development and maintenance of open-source bioinformatic tools and pipelines.<br><span class="field-pi">PI: Dr. Stefano Amalfitano</span></div>
+      <div class="field-desc" data-i18n="experience.item1.desc" data-i18n-html="true">Research on microbial communities in extreme and aquatic environments, with a focus on metagenomics, antibiotic resistance genomics, and astrobiology. Development and maintenance of open-source bioinformatic tools and pipelines.<br><span class="field-pi">PI: Dr. Stefano Amalfitano</span></div>
     </div>
 
     <div class="field-item">
       <div class="field-date">2022 — 2024</div>
-      <div class="field-title">Postdoctoral Research Fellow</div>
+      <div class="field-title" data-i18n="experience.item2.title">Postdoctoral Research Fellow</div>
       <div class="field-location">📍 Università degli Studi di Napoli Federico II</div>
-      <div class="field-desc">Development of new bioinformatic tools for the analysis of microbial diversity in extreme environments using metagenomic approaches. Participation in international field expeditions including the NSF-funded AT50-20 oceanographic cruise aboard R/V Atlantis.<br><span class="field-pi">PI: Prof. Donato Giovannelli</span></div>
+      <div class="field-desc" data-i18n="experience.item2.desc" data-i18n-html="true">Development of new bioinformatic tools for the analysis of microbial diversity in extreme environments using metagenomic approaches. Participation in international field expeditions including the NSF-funded AT50-20 oceanographic cruise aboard R/V Atlantis.<br><span class="field-pi">PI: Prof. Donato Giovannelli</span></div>
     </div>
 
     <div class="field-item">
       <div class="field-date">2018 — 2019</div>
-      <div class="field-title">Research Fellow</div>
+      <div class="field-title" data-i18n="experience.item3.title">Research Fellow</div>
       <div class="field-location">📍 Università degli Studi di Padova</div>
-      <div class="field-desc">Development of computational methods for the reconstruction and analysis of gene interaction networks between protein-coding genes, microRNAs and lncRNAs in relation to metabolic changes in skeletal muscle fibre types.<br><span class="field-pi">PI: Dr. Gabriele Sales</span></div>
+      <div class="field-desc" data-i18n="experience.item3.desc" data-i18n-html="true">Development of computational methods for the reconstruction and analysis of gene interaction networks between protein-coding genes, microRNAs and lncRNAs in relation to metabolic changes in skeletal muscle fibre types.<br><span class="field-pi">PI: Dr. Gabriele Sales</span></div>
     </div>
 
   </div>
@@ -1883,36 +1934,36 @@
 
 <!-- EDUCATION -->
 <section id="education">
-  <div class="section-label">// 05 — Education</div>
-  <h2 class="section-title">Education</h2>
+  <div class="section-label" data-i18n="education.label">// 05 — Education</div>
+  <h2 class="section-title" data-i18n="education.title">Education</h2>
   <div class="edu-timeline">
 
     <div class="edu-item">
       <div class="edu-year">2026</div>
-      <div class="edu-degree">International Master's programme in Space Missions Science, Design and Applications (SPICES)</div>
+      <div class="edu-degree" data-i18n="education.item1.degree">International Master's programme in Space Missions Science, Design and Applications (SPICES)</div>
       <div class="edu-institution">Alma Mater Studiorum — Università di Bologna</div>
-      <div class="edu-thesis">Microbial community structure and biosignature potential in a hypersaline planetary field analogue: insights from the Kudiakam Pan, Makgadikgadi Basin (Botswana)</div>
+      <div class="edu-thesis" data-i18n="education.item1.thesis">Microbial community structure and biosignature potential in a hypersaline planetary field analogue: insights from the Kudiakam Pan, Makgadikgadi Basin (Botswana)</div>
     </div>
 
     <div class="edu-item">
       <div class="edu-year">2023</div>
-      <div class="edu-degree">PhD in Biosciences — Genetics, Genomics & Bioinformatics</div>
+      <div class="edu-degree" data-i18n="education.item2.degree">PhD in Biosciences — Genetics, Genomics & Bioinformatics</div>
       <div class="edu-institution">Università degli Studi di Padova</div>
-      <div class="edu-thesis">Exploring biological signals: from pathway visualization to spatial transcriptomics</div>
+      <div class="edu-thesis" data-i18n="education.item2.thesis">Exploring biological signals: from pathway visualization to spatial transcriptomics</div>
     </div>
 
     <div class="edu-item">
       <div class="edu-year">2018</div>
-      <div class="edu-degree">MSc in Bioinformatics</div>
+      <div class="edu-degree" data-i18n="education.item3.degree">MSc in Bioinformatics</div>
       <div class="edu-institution">Università degli Studi di Roma Tor Vergata</div>
-      <div class="edu-thesis">Analysis of gene expression variation based on associations between DNA:DNA:ncRNA triple helices and epigenetic signals</div>
+      <div class="edu-thesis" data-i18n="education.item3.thesis">Analysis of gene expression variation based on associations between DNA:DNA:ncRNA triple helices and epigenetic signals</div>
     </div>
 
     <div class="edu-item">
       <div class="edu-year">2017</div>
-      <div class="edu-degree">BSc in Computer Science</div>
+      <div class="edu-degree" data-i18n="education.item4.degree">BSc in Computer Science</div>
       <div class="edu-institution">Università degli Studi di Roma Tor Vergata</div>
-      <div class="edu-thesis">Analysis of secondary structure prediction stability as a function of flanking sequences in non-coding RNAs</div>
+      <div class="edu-thesis" data-i18n="education.item4.thesis">Analysis of secondary structure prediction stability as a function of flanking sequences in non-coding RNAs</div>
     </div>
 
   </div>
@@ -1922,35 +1973,35 @@
 
 <!-- ACADEMIA -->
 <section id="academia">
-  <div class="section-label">// 06 — Academia</div>
-  <h2 class="section-title">Academia</h2>
-  <h3 class="sub-section-title">Teaching</h3>
+  <div class="section-label" data-i18n="academia.label">// 06 — Academia</div>
+  <h2 class="section-title" data-i18n="academia.title">Academia</h2>
+  <h3 class="sub-section-title" data-i18n="academia.teaching">Teaching</h3>
   <div class="field-timeline">
 
     <div class="field-item">
       <div class="field-date">AY 2023/2024</div>
-      <div class="field-title">Microbial Colonization of Terrestrial Analogs and Habitability</div>
+      <div class="field-title" data-i18n="academia.teach1.title">Microbial Colonization of Terrestrial Analogs and Habitability</div>
       <div class="field-location">📍 MSc in Biology of Extreme Environments — Università degli Studi di Napoli Federico II</div>
-      <div class="field-desc">Teaching assistant. Course held by Prof. Donato Giovannelli. Topics covered microbial colonization strategies in extreme terrestrial environments and their implications for planetary habitability research.</div>
+      <div class="field-desc" data-i18n="academia.teach1.desc">Teaching assistant. Course held by Prof. Donato Giovannelli. Topics covered microbial colonization strategies in extreme terrestrial environments and their implications for planetary habitability research.</div>
     </div>
 
     <div class="field-item">
       <div class="field-date">AY 2019/2020 · 2020/2021 · 2021/2022</div>
-      <div class="field-title">Molecular Genetics</div>
+      <div class="field-title" data-i18n="academia.teach2.title">Molecular Genetics</div>
       <div class="field-location">📍 MSc in Molecular Biology — Università degli Studi di Padova</div>
-      <div class="field-desc">Teaching assistant for three consecutive academic years. Course held by Prof. Gabriele Sales. Supported students in understanding molecular genetics principles and their computational applications.</div>
+      <div class="field-desc" data-i18n="academia.teach2.desc">Teaching assistant for three consecutive academic years. Course held by Prof. Gabriele Sales. Supported students in understanding molecular genetics principles and their computational applications.</div>
     </div>
 
     <div class="field-item">
       <div class="field-date">AY 2020/2021 · 2021/2022</div>
-      <div class="field-title">Omic Data: Analysis and Experimental Design</div>
+      <div class="field-title" data-i18n="academia.teach3.title">Omic Data: Analysis and Experimental Design</div>
       <div class="field-location">📍 BSc in Molecular Biology — Università degli Studi di Padova</div>
-      <div class="field-desc">Teaching assistant for two academic years. Course held by Prof. Chiara Romualdi and Prof. Gabriele Sales. Covered experimental design and computational analysis of multi-omic datasets including RNA-seq and related technologies.</div>
+      <div class="field-desc" data-i18n="academia.teach3.desc">Teaching assistant for two academic years. Course held by Prof. Chiara Romualdi and Prof. Gabriele Sales. Covered experimental design and computational analysis of multi-omic datasets including RNA-seq and related technologies.</div>
     </div>
 
   </div>
 
-  <h3 class="sub-section-title">Conferences & Talks</h3>
+  <h3 class="sub-section-title" data-i18n="academia.conferences">Conferences & Talks</h3>
   <div class="conf-grid">
 
     <div class="conf-item">
@@ -1995,7 +2046,7 @@
 
   </div>
 
-  <h3 class="sub-section-title">Workshops & Training</h3>
+  <h3 class="sub-section-title" data-i18n="academia.workshops">Workshops & Training</h3>
   <div class="conf-grid">
 
     <div class="conf-item">
@@ -2054,23 +2105,23 @@
 
 <!-- AFFILIATIONS -->
 <section id="affiliations">
-  <div class="section-label">// 07 — Affiliations</div>
-  <h2 class="section-title">Affiliations & Initiatives</h2>
+  <div class="section-label" data-i18n="affiliations.label">// 07 — Affiliations</div>
+  <h2 class="section-title" data-i18n="affiliations.title">Affiliations & Initiatives</h2>
   <div class="conf-grid">
 
     <div class="conf-item">
       <span class="conf-badge invited">🧫 MIRA</span>
       <div>
-        <div class="conf-title">Co-founder & Bioinformatics Lead — MIRA Biotech</div>
-        <div class="conf-event">Deep-tech spin-off (CNR / Università della Tuscia) — Microbiome Intelligence platform turning complex microbial data into predictive insight for environmental, industrial, agricultural and space applications · <a href="https://www.mirabiotech.it" class="pub-doi" target="_blank">Website →</a></div>
+        <div class="conf-title" data-i18n="affiliations.mira.title">Co-founder & Bioinformatics Lead — MIRA Biotech</div>
+        <div class="conf-event" data-i18n="affiliations.mira.desc" data-i18n-html="true">Deep-tech spin-off (CNR / Università della Tuscia) — Microbiome Intelligence platform turning complex microbial data into predictive insight for environmental, industrial, agricultural and space applications · <a href="https://www.mirabiotech.it" class="pub-doi" target="_blank">Website →</a></div>
       </div>
     </div>
 
     <div class="conf-item">
       <span class="conf-badge poster">🔬 MicrobEco</span>
       <div>
-        <div class="conf-title">Member — MicrobEco</div>
-        <div class="conf-event">Scientific association of microbial ecologists — outreach, training (e.g. ICME Series) and international collaboration · <a href="https://www.microbeco.org" class="pub-doi" target="_blank">Website →</a></div>
+        <div class="conf-title" data-i18n="affiliations.microbeco.title">Member — MicrobEco</div>
+        <div class="conf-event" data-i18n="affiliations.microbeco.desc" data-i18n-html="true">Scientific association of microbial ecologists — outreach, training (e.g. ICME Series) and international collaboration · <a href="https://www.microbeco.org" class="pub-doi" target="_blank">Website →</a></div>
       </div>
     </div>
 
@@ -2081,8 +2132,8 @@
 
 <!-- SKILLS -->
 <section id="skills">
-  <div class="section-label">// 08 — Skills</div>
-  <h2 class="section-title">Technical Skills</h2>
+  <div class="section-label" data-i18n="skills.label">// 08 — Skills</div>
+  <h2 class="section-title" data-i18n="skills.title">Technical Skills</h2>
 
 
   <div class="skills-grid">
@@ -2090,7 +2141,7 @@
     <div class="skill-category">
       <div class="skill-cat-header">
         <div class="skill-cat-icon">🧬</div>
-        <div class="skill-cat-title">Bioinformatics & Genomics</div>
+        <div class="skill-cat-title" data-i18n="skills.cat1">Bioinformatics & Genomics</div>
       </div>
       <div class="skill-pills">
         <span class="skill-pill adv">Metagenomics</span>
@@ -2108,7 +2159,7 @@
     <div class="skill-category">
       <div class="skill-cat-header">
         <div class="skill-cat-icon">💻</div>
-        <div class="skill-cat-title">Programming Languages</div>
+        <div class="skill-cat-title" data-i18n="skills.cat2">Programming Languages</div>
       </div>
       <div class="skill-pills">
         <span class="skill-pill adv">Python</span>
@@ -2127,7 +2178,7 @@
     <div class="skill-category">
       <div class="skill-cat-header">
         <div class="skill-cat-icon">⚙️</div>
-        <div class="skill-cat-title">Infrastructure & DevOps</div>
+        <div class="skill-cat-title" data-i18n="skills.cat3">Infrastructure & DevOps</div>
       </div>
       <div class="skill-pills">
         <span class="skill-pill adv">Docker</span>
@@ -2143,7 +2194,7 @@
     <div class="skill-category">
       <div class="skill-cat-header">
         <div class="skill-cat-icon">📊</div>
-        <div class="skill-cat-title">Data & Visualisation</div>
+        <div class="skill-cat-title" data-i18n="skills.cat4">Data & Visualisation</div>
       </div>
       <div class="skill-pills">
         <span class="skill-pill adv">Bioconductor</span>
@@ -2156,7 +2207,7 @@
     <div class="skill-category">
       <div class="skill-cat-header">
         <div class="skill-cat-icon">🌐</div>
-        <div class="skill-cat-title">Development</div>
+        <div class="skill-cat-title" data-i18n="skills.cat5">Development</div>
       </div>
       <div class="skill-pills">
         <span class="skill-pill adv">React.js</span>
@@ -2174,7 +2225,7 @@
     <div class="skill-category">
       <div class="skill-cat-header">
         <div class="skill-cat-icon">🛰️</div>
-        <div class="skill-cat-title">Space & Earth Sciences</div>
+        <div class="skill-cat-title" data-i18n="skills.cat6">Space & Earth Sciences</div>
       </div>
       <div class="skill-pills">
         <span class="skill-pill mid">Earth Observation</span>
@@ -2195,10 +2246,10 @@
 
 <!-- CONTACT -->
 <section id="contact">
-  <div class="section-label">// 09 — Contact</div>
-  <h2 class="section-title">Get in Touch</h2>
+  <div class="section-label" data-i18n="contact.label">// 09 — Contact</div>
+  <h2 class="section-title" data-i18n="contact.title">Get in Touch</h2>
   <div class="contact-simple">
-    <p>I am open to research collaborations, consulting opportunities in bioinformatics and space science, and invitations to speak or teach. If you are working on something at the intersection of computational biology, microbial ecology, or astrobiology — I would love to hear from you.</p>
+    <p data-i18n="contact.p1">I am open to research collaborations, consulting opportunities in bioinformatics and space science, and invitations to speak or teach. If you are working on something at the intersection of computational biology, microbial ecology, or astrobiology — I would love to hear from you.</p>
     <div class="contact-links">
       <div class="contact-link-row">
         <a href="mailto:davide.corso@irsa.cnr.it" class="contact-link">
@@ -2206,7 +2257,7 @@
           davide.corso@irsa.cnr.it
         </a>
         <button type="button" class="copy-btn" aria-label="Copy email address" onclick="copyEmail(this)">
-          <span class="copy-tooltip">Copied!</span>
+          <span class="copy-tooltip" data-i18n="contact.copied">Copied!</span>
           <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
         </button>
@@ -2218,7 +2269,7 @@
     </div>
     <a href="mailto:davide.corso@irsa.cnr.it" class="cv-btn">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-      Send an Email
+      <span data-i18n="contact.sendEmail">Send an Email</span>
     </a>
   </div>
 </section>
@@ -2227,8 +2278,8 @@
 
 <!-- DIVE -->
 <section id="dive">
-  <div class="section-label">// 10 — 2,518 M</div>
-  <h2 class="section-title">Alvin Dive on the East Pacific Rise</h2>
+  <div class="section-label" data-i18n="dive.label">// 10 — 2,518 M</div>
+  <h2 class="section-title" data-i18n="dive.title">Alvin Dive on the East Pacific Rise</h2>
   <div class="about-video dive-video">
     <div class="about-video-wrapper">
       <iframe src="https://www.youtube.com/embed/fnRnWKOgNk8?si=Tmaw2XOjGVKO60YL" title="Alvin Deep Dive #5229 — Davide Corso" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
@@ -2255,7 +2306,7 @@
     <div class="depth-marker-dot" id="depth-marker"></div>
     <div class="depth-tick major" style="top:0%">
       <span class="dash"></span>
-      <span class="label">0 M<span class="sub">Surface</span></span>
+      <span class="label">0 M<span class="sub" data-i18n="dive.surface">Surface</span></span>
     </div>
     <div class="depth-tick major" style="top:20%">
       <span class="dash"></span>
@@ -2285,6 +2336,207 @@
 </footer>
 
 <script>
+// LANGUAGE TOGGLE (EN default / IT)
+const translations = {
+  en: {
+    "nav.home": "Home", "nav.about": "About", "nav.research": "Research",
+    "nav.output": "Scientific Output", "nav.field": "Field", "nav.experience": "Experience",
+    "nav.education": "Education", "nav.academia": "Academia", "nav.affiliations": "Affiliations",
+    "nav.skills": "Skills", "nav.dive": "Dive", "nav.contact": "Contact",
+
+    "hero.label": "Researcher · Bioinformatician · Astrobiologist",
+    "hero.tagline": "Bridging microbial ecology, metagenomics and space science — from deep-sea hydrothermal vents to Martian analogues.",
+    "hero.position": "→ Research Fellow, CNR-IRSA — Roma Montelibretti",
+    "hero.scroll": "Scroll to explore",
+
+    "about.label": "// 00 — About", "about.title": "Who I Am",
+    "about.p1": "I am a computational biologist driven by a single question: how does life adapt to the most extreme conditions on Earth — and what does that tell us about the possibility of life elsewhere? I build bioinformatic tools and pipelines to decode microbial communities, then apply them to environments that push biology to its limits — from deep-sea hydrothermal vents to hypersaline planetary analogues.",
+    "about.p2": "Currently a Research Fellow at CNR, my work combines field campaigns — including a dive at 2,518 metres aboard the HOV Alvin — with high-performance computational analysis. I am also increasingly interested in the theoretical principles that govern how microbial communities sustain cooperation and stability under extreme energetic constraints.",
+
+    "research.label": "// 01 — Research", "research.title": "Research Areas",
+    "research.card1.title": "Environmental Metagenomics",
+    "research.card1.desc": "Characterising microbial communities in extreme and aquatic environments — from constructed wetlands and coastal aquifers to deep-sea hydrothermal vents — using 16S rRNA sequencing and whole-metagenome approaches.",
+    "research.card2.title": "Astrobiology & Planetary Analogues",
+    "research.card2.desc": "Investigating hypersaline and geochemically extreme environments as analogues for Mars and other planetary bodies, with a focus on biosignature formation and the potential for life in extreme conditions.",
+    "research.card3.title": "Bioinformatics Tool Development",
+    "research.card3.desc": "Designing and maintaining flexible, reproducible pipelines and R packages for metagenomic analysis, spatial transcriptomics, and biological network visualisation — built for scientists without deep computational backgrounds.",
+    "research.card4.title": "Earth Observation & Space Data",
+    "research.card4.desc": "Applying satellite remote sensing, geospatial analysis and climate system monitoring to environmental research, integrating orbital data with ground-truth biological and geochemical observations.",
+
+    "output.label": "// 02 — Scientific Output", "output.title": "Scientific Output",
+    "output.publications": "Publications", "output.published": "Published", "output.tools": "Tools & Packages",
+    "output.tool1.desc": "A flexible metagenomic pipeline combining read-based analysis, assemblies and MAGs with downstream biological and geochemical data integration. Designed for reproducibility and ease of use without deep bioinformatic expertise.",
+    "output.tool2.desc": "An R package for multivariate data range visualisation, displaying 3–6 variables simultaneously with min/max and mean for each — ideal for comparing environmental profiles across sampling sites.",
+    "output.tool3.desc": "An R/Bioconductor wrapper for the SpatialDE Python library, enabling identification of spatially variable genes in spatial transcriptomics data directly from R with a native Bioconductor interface.",
+    "output.tool4.desc": "A web application for interactive visualisation of biological regulatory networks, combining multiple layout algorithms and network types to highlight functional modules within biological pathways.",
+    "output.tool5.desc": "An expression knowledgebase at single cell and nucleus level for the discovery of coding–noncoding RNA functional interactions in skeletal muscle, integrating miRNA, lncRNA and mRNA co-regulation networks.",
+
+    "field.label": "// 03 — Field", "field.title": "Field Experience",
+    "field.item1.desc": "Participated as starboard observer aboard the deep-submergence vehicle HOV Alvin for an 8-hour dive to sample hydrothermal vent fluids and biofilms at the Tica and Biovent sites. One of fewer than a thousand people to have dived in Alvin.",
+    "field.item2.desc": "31-day NSF-funded oceanographic cruise aboard the WHOI research vessel Atlantis. Sampled high- and low-temperature hydrothermal vent fluids at 2,500 m depth using titanium syringe samplers at sites Tica, Biovent, Bio9, L-Vent and V-Vent.",
+    "field.item3.desc": "Participated in the International Continental Drilling Program campaign, responsible for collection, processing and preservation of rock core samples from the lower continental crust exposed at the Ivrea-Verbano Zone.",
+    "field.item4.desc": "Multiple sampling campaigns across 2025 to characterise the natural geochemical background of groundwater and soil in the Sacco River national interest site (SIN), in collaboration with CNR-IRSA and ARPA Lazio.",
+
+    "experience.label": "// 04 — Experience", "experience.title": "Experience",
+    "experience.item1.title": "Postdoctoral Research Fellow",
+    "experience.item1.desc": "Research on microbial communities in extreme and aquatic environments, with a focus on metagenomics, antibiotic resistance genomics, and astrobiology. Development and maintenance of open-source bioinformatic tools and pipelines.<br><span class=\"field-pi\">PI: Dr. Stefano Amalfitano</span>",
+    "experience.item2.title": "Postdoctoral Research Fellow",
+    "experience.item2.desc": "Development of new bioinformatic tools for the analysis of microbial diversity in extreme environments using metagenomic approaches. Participation in international field expeditions including the NSF-funded AT50-20 oceanographic cruise aboard R/V Atlantis.<br><span class=\"field-pi\">PI: Prof. Donato Giovannelli</span>",
+    "experience.item3.title": "Research Fellow",
+    "experience.item3.desc": "Development of computational methods for the reconstruction and analysis of gene interaction networks between protein-coding genes, microRNAs and lncRNAs in relation to metabolic changes in skeletal muscle fibre types.<br><span class=\"field-pi\">PI: Dr. Gabriele Sales</span>",
+
+    "education.label": "// 05 — Education", "education.title": "Education",
+    "education.item1.degree": "International Master's programme in Space Missions Science, Design and Applications (SPICES)",
+    "education.item1.thesis": "Microbial community structure and biosignature potential in a hypersaline planetary field analogue: insights from the Kudiakam Pan, Makgadikgadi Basin (Botswana)",
+    "education.item2.degree": "PhD in Biosciences — Genetics, Genomics & Bioinformatics",
+    "education.item2.thesis": "Exploring biological signals: from pathway visualization to spatial transcriptomics",
+    "education.item3.degree": "MSc in Bioinformatics",
+    "education.item3.thesis": "Analysis of gene expression variation based on associations between DNA:DNA:ncRNA triple helices and epigenetic signals",
+    "education.item4.degree": "BSc in Computer Science",
+    "education.item4.thesis": "Analysis of secondary structure prediction stability as a function of flanking sequences in non-coding RNAs",
+
+    "academia.label": "// 06 — Academia", "academia.title": "Academia", "academia.teaching": "Teaching",
+    "academia.teach1.title": "Microbial Colonization of Terrestrial Analogs and Habitability",
+    "academia.teach1.desc": "Teaching assistant. Course held by Prof. Donato Giovannelli. Topics covered microbial colonization strategies in extreme terrestrial environments and their implications for planetary habitability research.",
+    "academia.teach2.title": "Molecular Genetics",
+    "academia.teach2.desc": "Teaching assistant for three consecutive academic years. Course held by Prof. Gabriele Sales. Supported students in understanding molecular genetics principles and their computational applications.",
+    "academia.teach3.title": "Omic Data: Analysis and Experimental Design",
+    "academia.teach3.desc": "Teaching assistant for two academic years. Course held by Prof. Chiara Romualdi and Prof. Gabriele Sales. Covered experimental design and computational analysis of multi-omic datasets including RNA-seq and related technologies.",
+    "academia.conferences": "Conferences & Talks", "academia.workshops": "Workshops & Training",
+
+    "affiliations.label": "// 07 — Affiliations", "affiliations.title": "Affiliations & Initiatives",
+    "affiliations.mira.title": "Co-founder & Bioinformatics Lead — MIRA Biotech",
+    "affiliations.mira.desc": "Deep-tech spin-off (CNR / Università della Tuscia) — Microbiome Intelligence platform turning complex microbial data into predictive insight for environmental, industrial, agricultural and space applications · <a href=\"https://www.mirabiotech.it\" class=\"pub-doi\" target=\"_blank\">Website →</a>",
+    "affiliations.microbeco.title": "Member — MicrobEco",
+    "affiliations.microbeco.desc": "Scientific association of microbial ecologists — outreach, training (e.g. ICME Series) and international collaboration · <a href=\"https://www.microbeco.org\" class=\"pub-doi\" target=\"_blank\">Website →</a>",
+
+    "skills.label": "// 08 — Skills", "skills.title": "Technical Skills",
+    "skills.cat1": "Bioinformatics & Genomics", "skills.cat2": "Programming Languages",
+    "skills.cat3": "Infrastructure & DevOps", "skills.cat4": "Data & Visualisation",
+    "skills.cat5": "Development", "skills.cat6": "Space & Earth Sciences",
+
+    "contact.label": "// 09 — Contact", "contact.title": "Get in Touch",
+    "contact.p1": "I am open to research collaborations, consulting opportunities in bioinformatics and space science, and invitations to speak or teach. If you are working on something at the intersection of computational biology, microbial ecology, or astrobiology — I would love to hear from you.",
+    "contact.copied": "Copied!", "contact.sendEmail": "Send an Email",
+
+    "dive.label": "// 10 — 2,518 M", "dive.title": "Alvin Dive on the East Pacific Rise", "dive.surface": "Surface"
+  },
+  it: {
+    "nav.home": "Home", "nav.about": "Chi sono", "nav.research": "Ricerca",
+    "nav.output": "Produzione Scientifica", "nav.field": "Sul Campo", "nav.experience": "Esperienza",
+    "nav.education": "Formazione", "nav.academia": "Accademia", "nav.affiliations": "Affiliazioni",
+    "nav.skills": "Competenze", "nav.dive": "Immersione", "nav.contact": "Contatti",
+
+    "hero.label": "Ricercatore · Bioinformatico · Astrobiologo",
+    "hero.tagline": "Un ponte tra ecologia microbica, metagenomica e scienze spaziali — dalle sorgenti idrotermali degli abissi agli analoghi marziani.",
+    "hero.position": "→ Assegnista di Ricerca, CNR-IRSA — Roma Montelibretti",
+    "hero.scroll": "Scorri per esplorare",
+
+    "about.label": "// 00 — Chi sono", "about.title": "Chi Sono",
+    "about.p1": "Sono un biologo computazionale mosso da una domanda sola: come si adatta la vita alle condizioni più estreme della Terra — e cosa ci dice questo sulla possibilità di vita altrove? Costruisco strumenti e pipeline bioinformatiche per decifrare le comunità microbiche, e le applico ad ambienti che spingono la biologia ai suoi limiti — dalle sorgenti idrotermali degli abissi agli analoghi planetari ipersalini.",
+    "about.p2": "Attualmente Assegnista di Ricerca al CNR, il mio lavoro unisce campagne sul campo — tra cui un'immersione a 2.518 metri a bordo dell'HOV Alvin — ad analisi computazionali ad alte prestazioni. Sono inoltre sempre più interessato ai principi teorici che regolano come le comunità microbiche mantengano cooperazione e stabilità in condizioni di forte vincolo energetico.",
+
+    "research.label": "// 01 — Ricerca", "research.title": "Aree di Ricerca",
+    "research.card1.title": "Metagenomica Ambientale",
+    "research.card1.desc": "Caratterizzazione delle comunità microbiche in ambienti estremi e acquatici — da zone umide artificiali e acquiferi costieri fino alle sorgenti idrotermali degli abissi — tramite sequenziamento 16S rRNA e approcci whole-metagenome.",
+    "research.card2.title": "Astrobiologia & Analoghi Planetari",
+    "research.card2.desc": "Studio di ambienti ipersalini e geochimicamente estremi come analoghi di Marte e di altri corpi planetari, con particolare attenzione alla formazione di biosignature e al potenziale per la vita in condizioni estreme.",
+    "research.card3.title": "Sviluppo di Strumenti Bioinformatici",
+    "research.card3.desc": "Progettazione e manutenzione di pipeline flessibili e riproducibili e di pacchetti R per l'analisi metagenomica, la trascrittomica spaziale e la visualizzazione di reti biologiche — pensati per ricercatori senza un background computazionale avanzato.",
+    "research.card4.title": "Osservazione della Terra & Dati Spaziali",
+    "research.card4.desc": "Applicazione di telerilevamento satellitare, analisi geospaziale e monitoraggio del sistema climatico alla ricerca ambientale, integrando dati orbitali con osservazioni biologiche e geochimiche di verità a terra.",
+
+    "output.label": "// 02 — Produzione Scientifica", "output.title": "Produzione Scientifica",
+    "output.publications": "Pubblicazioni", "output.published": "Pubblicato", "output.tools": "Strumenti & Pacchetti",
+    "output.tool1.desc": "Una pipeline metagenomica flessibile che combina analisi read-based, assembly e MAGs con l'integrazione a valle di dati biologici e geochimici. Progettata per essere riproducibile e utilizzabile senza competenze bioinformatiche avanzate.",
+    "output.tool2.desc": "Un pacchetto R per la visualizzazione di intervalli di dati multivariati, che mostra da 3 a 6 variabili contemporaneamente con minimo, massimo e media per ciascuna — ideale per confrontare profili ambientali tra diversi siti di campionamento.",
+    "output.tool3.desc": "Un wrapper R/Bioconductor per la libreria Python SpatialDE, che consente di identificare geni spazialmente variabili in dati di trascrittomica spaziale direttamente da R, con un'interfaccia Bioconductor nativa.",
+    "output.tool4.desc": "Un'applicazione web per la visualizzazione interattiva di reti regolatorie biologiche, che combina diversi algoritmi di layout e tipologie di rete per evidenziare i moduli funzionali all'interno dei pathway biologici.",
+    "output.tool5.desc": "Una knowledgebase di espressione a livello di singola cellula e nucleo per la scoperta di interazioni funzionali tra RNA codificanti e non codificanti nel muscolo scheletrico, che integra reti di co-regolazione tra miRNA, lncRNA e mRNA.",
+
+    "field.label": "// 03 — Sul Campo", "field.title": "Esperienza sul Campo",
+    "field.item1.desc": "Ho partecipato come osservatore di dritta a bordo del veicolo per immersioni profonde HOV Alvin, in un'immersione di 8 ore per campionare fluidi idrotermali e biofilm nei siti Tica e Biovent. Una delle meno di mille persone ad aver effettuato un'immersione con Alvin.",
+    "field.item2.desc": "Spedizione oceanografica di 31 giorni finanziata dalla NSF a bordo della nave da ricerca WHOI Atlantis. Campionamento di fluidi idrotermali ad alta e bassa temperatura a 2.500 m di profondità con campionatori a siringa in titanio nei siti Tica, Biovent, Bio9, L-Vent e V-Vent.",
+    "field.item3.desc": "Ho partecipato alla campagna dell'International Continental Drilling Program, occupandomi della raccolta, elaborazione e conservazione di carote di roccia della crosta continentale inferiore affiorante nella Zona Ivrea-Verbano.",
+    "field.item4.desc": "Diverse campagne di campionamento nel corso del 2025 per caratterizzare il fondo geochimico naturale delle acque sotterranee e del suolo nel sito di interesse nazionale (SIN) del Fiume Sacco, in collaborazione con CNR-IRSA e ARPA Lazio.",
+
+    "experience.label": "// 04 — Esperienza", "experience.title": "Esperienza",
+    "experience.item1.title": "Assegnista di Ricerca",
+    "experience.item1.desc": "Ricerca sulle comunità microbiche in ambienti estremi e acquatici, con particolare attenzione a metagenomica, genomica della resistenza agli antibiotici e astrobiologia. Sviluppo e manutenzione di strumenti e pipeline bioinformatiche open-source.<br><span class=\"field-pi\">Responsabile scientifico: Dott. Stefano Amalfitano</span>",
+    "experience.item2.title": "Assegnista di Ricerca",
+    "experience.item2.desc": "Sviluppo di nuovi strumenti bioinformatici per l'analisi della diversità microbica in ambienti estremi tramite approcci metagenomici. Partecipazione a spedizioni internazionali sul campo, tra cui la crociera oceanografica AT50-20 finanziata dalla NSF a bordo della R/V Atlantis.<br><span class=\"field-pi\">Responsabile scientifico: Prof. Donato Giovannelli</span>",
+    "experience.item3.title": "Assegnista di Ricerca",
+    "experience.item3.desc": "Sviluppo di metodi computazionali per la ricostruzione e l'analisi di reti di interazione genica tra geni codificanti proteine, microRNA e lncRNA in relazione ai cambiamenti metabolici nei diversi tipi di fibre muscolari scheletriche.<br><span class=\"field-pi\">Responsabile scientifico: Dott. Gabriele Sales</span>",
+
+    "education.label": "// 05 — Formazione", "education.title": "Formazione",
+    "education.item1.degree": "Master Internazionale in Space Missions Science, Design and Applications (SPICES)",
+    "education.item1.thesis": "Microbial community structure and biosignature potential in a hypersaline planetary field analogue: insights from the Kudiakam Pan, Makgadikgadi Basin (Botswana)",
+    "education.item2.degree": "Dottorato di Ricerca in Bioscienze — Genetica, Genomica e Bioinformatica",
+    "education.item2.thesis": "Exploring biological signals: from pathway visualization to spatial transcriptomics",
+    "education.item3.degree": "Laurea Magistrale in Bioinformatica",
+    "education.item3.thesis": "Analisi della variazione dell'espressione genica sulla base di associazioni fra triple eliche DNA:DNA:ncRNA e segnali epigenetici",
+    "education.item4.degree": "Laurea Triennale in Informatica",
+    "education.item4.thesis": "Analisi della stabilità di predizione della struttura secondaria al variare di sequenze flanking",
+
+    "academia.label": "// 06 — Accademia", "academia.title": "Accademia", "academia.teaching": "Didattica",
+    "academia.teach1.title": "Colonizzazione Microbica di Analoghi Terrestri e Abitabilità",
+    "academia.teach1.desc": "Assistente alla didattica. Corso tenuto dal Prof. Donato Giovannelli. Argomenti trattati: strategie di colonizzazione microbica in ambienti terrestri estremi e loro implicazioni per la ricerca sull'abitabilità planetaria.",
+    "academia.teach2.title": "Genetica Molecolare",
+    "academia.teach2.desc": "Assistente alla didattica per tre anni accademici consecutivi. Corso tenuto dal Prof. Gabriele Sales. Supporto agli studenti nella comprensione dei principi di genetica molecolare e delle loro applicazioni computazionali.",
+    "academia.teach3.title": "Dati Omici: Analisi e Disegno Sperimentale",
+    "academia.teach3.desc": "Assistente alla didattica per due anni accademici. Corso tenuto dalla Prof.ssa Chiara Romualdi e dal Prof. Gabriele Sales. Argomenti trattati: disegno sperimentale e analisi computazionale di dataset multi-omici, incluso RNA-seq e tecnologie correlate.",
+    "academia.conferences": "Conferenze & Interventi", "academia.workshops": "Workshop & Formazione",
+
+    "affiliations.label": "// 07 — Affiliazioni", "affiliations.title": "Affiliazioni & Iniziative",
+    "affiliations.mira.title": "Co-fondatore & Responsabile Bioinformatica — MIRA Biotech",
+    "affiliations.mira.desc": "Spin-off deep-tech (CNR / Università della Tuscia) — piattaforma di Microbiome Intelligence che trasforma dati microbici complessi in insight predittivi per applicazioni ambientali, industriali, agricole e spaziali · <a href=\"https://www.mirabiotech.it\" class=\"pub-doi\" target=\"_blank\">Sito web →</a>",
+    "affiliations.microbeco.title": "Membro — MicrobEco",
+    "affiliations.microbeco.desc": "Associazione scientifica di ecologi microbici — divulgazione, formazione (es. ICME Series) e collaborazione internazionale · <a href=\"https://www.microbeco.org\" class=\"pub-doi\" target=\"_blank\">Sito web →</a>",
+
+    "skills.label": "// 08 — Competenze", "skills.title": "Competenze Tecniche",
+    "skills.cat1": "Bioinformatica & Genomica", "skills.cat2": "Linguaggi di Programmazione",
+    "skills.cat3": "Infrastruttura & DevOps", "skills.cat4": "Dati & Visualizzazione",
+    "skills.cat5": "Sviluppo", "skills.cat6": "Scienze Spaziali & della Terra",
+
+    "contact.label": "// 09 — Contatti", "contact.title": "Contattami",
+    "contact.p1": "Sono aperto a collaborazioni di ricerca, opportunità di consulenza in bioinformatica e scienze spaziali, e inviti a tenere seminari o lezioni. Se stai lavorando su qualcosa all'intersezione tra biologia computazionale, ecologia microbica o astrobiologia — scrivimi, mi farebbe piacere sentirti.",
+    "contact.copied": "Copiato!", "contact.sendEmail": "Invia una Email",
+
+    "dive.label": "// 10 — 2.518 M", "dive.title": "Immersione Alvin sulla Dorsale del Pacifico Orientale", "dive.surface": "Superficie"
+  }
+};
+
+function applyLanguage(lang) {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    const value = translations[lang][key];
+    if (value === undefined) return;
+    if (el.getAttribute('data-i18n-html') === 'true') {
+      el.innerHTML = value;
+    } else {
+      el.textContent = value;
+    }
+  });
+  document.documentElement.setAttribute('lang', lang);
+  const toggle = document.getElementById('lang-toggle');
+  if (toggle) {
+    toggle.querySelector('.lang-en').classList.toggle('active', lang === 'en');
+    toggle.querySelector('.lang-it').classList.toggle('active', lang === 'it');
+  }
+  localStorage.setItem('lang', lang);
+}
+
+(function initLanguage() {
+  const toggle = document.getElementById('lang-toggle');
+  if (!toggle) return;
+  let currentLang = localStorage.getItem('lang') || 'en';
+  applyLanguage(currentLang);
+  toggle.addEventListener('click', () => {
+    currentLang = currentLang === 'en' ? 'it' : 'en';
+    applyLanguage(currentLang);
+  });
+})();
+
 // COPY EMAIL
 function copyEmail(btn) {
   const email = 'davide.corso@irsa.cnr.it';
