@@ -1,0 +1,2481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Davide Corso — Bioinformatician & Astrobiologist</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b1228;
+    --bg2: #0e1630;
+    --bg3: #121c38;
+    --surface: #162240;
+    --surface2: #1b2a50;
+    --border: rgba(0,200,255,0.17);
+    --accent: #00c8ff;
+    --accent2: #00ff9d;
+    --accent3: #7b6cff;
+    --accent4: #3871ec;
+    --text: #f0f8ff;
+    --text2: #c8dff0;
+    --text3: #8ab2cc;
+    --mono: 'DM Mono', monospace;
+    --display: 'Plus Jakarta Sans', sans-serif;
+    --body: 'DM Sans', sans-serif;
+  }
+
+  body.light {
+    --bg: #dde0e6;
+    --bg2: #d5d8df;
+    --bg3: #cdd1d9;
+    --surface: #eceef2;
+    --surface2: #e4e7ec;
+    --border: rgba(0,50,120,0.18);
+    --accent: #0a3d8f;
+    --accent2: #006644;
+    --accent3: #4038b0;
+    --accent4: #1a44bb;
+    --text: #0d1520;
+    --text2: #1e3048;
+    --text3: #3a5870;
+  }
+
+  /* Award badge fix in light mode */
+  body.light .conf-badge.award {
+    color: #7a5500;
+    background: rgba(180,120,0,0.1);
+    border: 1px solid rgba(180,120,0,0.3);
+  }
+
+  /* THEME TOGGLE */
+  .theme-toggle {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 500;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    background: var(--surface);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    color: #d4a840;
+  }
+
+  body.light .theme-toggle {
+    color: var(--accent);
+  }
+
+  .theme-toggle:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 16px rgba(0,200,255,0.2), 0 4px 20px rgba(0,0,0,0.3);
+    transform: scale(1.08);
+  }
+
+  body.light .theme-toggle:hover {
+    box-shadow: 0 0 16px rgba(10,61,143,0.2), 0 4px 20px rgba(0,0,0,0.15);
+  }
+
+  /* DEPTH GAUGE */
+  .depth-gauge {
+    position: fixed;
+    right: 1.6rem;
+    top: 0;
+    bottom: 0;
+    z-index: 400;
+    display: flex;
+    padding: 7rem 0 6rem;
+    pointer-events: none;
+  }
+
+  .depth-track {
+    position: relative;
+    width: 22px;
+    cursor: pointer;
+    pointer-events: auto;
+  }
+
+  .depth-line {
+    position: absolute;
+    left: 50%; top: 0; bottom: 0; width: 2px;
+    background: var(--border);
+    border-radius: 2px;
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+
+  .depth-fill {
+    position: absolute;
+    top: 0; left: 50%; width: 2px;
+    background: linear-gradient(180deg, var(--accent), var(--accent4));
+    border-radius: 2px;
+    height: 0%;
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+
+  .depth-marker-dot {
+    position: absolute;
+    left: 50%;
+    top: 0%;
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .depth-tick {
+    position: absolute;
+    right: 50%;
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+    gap: 0.5rem;
+    transform: translateY(-50%);
+  }
+
+  .depth-tick.major {
+    cursor: pointer;
+    pointer-events: auto;
+    padding: 0.3rem 0;
+  }
+
+  .depth-tick .dash {
+    width: 8px;
+    height: 1px;
+    background: var(--text3);
+    flex-shrink: 0;
+    transition: all 0.15s;
+  }
+
+  .depth-tick.minor .dash { width: 5px; opacity: 0.5; }
+
+  .depth-tick.major .dash { width: 10px; background: var(--accent); }
+
+  .depth-tick.major:hover .dash { width: 16px; box-shadow: 0 0 6px var(--accent); }
+
+  .depth-tick .label {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    color: var(--text3);
+    white-space: nowrap;
+    text-align: right;
+    line-height: 1.3;
+    transition: color 0.15s;
+  }
+
+  .depth-tick.major:hover .label { color: var(--accent); }
+
+  .depth-tick .label .sub { display: block; opacity: 0.6; font-size: 0.58rem; }
+
+  @media (max-width: 900px) {
+    .depth-tick .label { display: none; }
+    .depth-gauge { right: 0.5rem; }
+  }
+
+  @media (max-width: 640px) {
+    .depth-gauge { display: none; }
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--body);
+    font-size: 18px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* CANVAS BACKGROUND */
+  #starfield {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2rem 4rem;
+    background: rgba(11,18,40,0.92);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  body.light nav {
+    background: rgba(240,242,245,0.92);
+  }
+
+  .nav-logo {
+    font-family: var(--mono);
+    font-weight: 400;
+    font-size: 0.78rem;
+    letter-spacing: 0;
+    text-transform: uppercase;
+    text-decoration: none;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    background: transparent;
+    line-height: 1;
+    padding: 0;
+    text-indent: 0;
+    opacity: 0.8;
+  }
+
+  .nav-logo:hover {
+    border-color: var(--accent);
+    opacity: 1;
+    box-shadow: 0 0 16px rgba(0,200,255,0.25), 0 0 40px rgba(0,200,255,0.08);
+  }
+
+  body.light .nav-logo:hover {
+    box-shadow: 0 0 16px rgba(10,61,143,0.2), 0 0 30px rgba(10,61,143,0.06);
+  }
+
+  .nav-logo .logo-d,
+  .nav-logo svg text .logo-d {
+    fill: var(--text);
+    color: var(--text);
+  }
+
+  .nav-logo .logo-c,
+  .nav-logo svg text .logo-c {
+    fill: var(--accent);
+    color: var(--accent);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--text2);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 1px;
+  }
+
+  /* HAMBURGER */
+  .nav-hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 4px;
+    background: none;
+    border: none;
+    z-index: 200;
+  }
+
+  .nav-hamburger span {
+    display: block;
+    width: 22px;
+    height: 1.5px;
+    background: var(--accent);
+    border-radius: 2px;
+    transition: all 0.25s;
+  }
+
+  .nav-hamburger.open span:nth-child(1) {
+    transform: translateY(6.5px) rotate(45deg);
+  }
+  .nav-hamburger.open span:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  .nav-hamburger.open span:nth-child(3) {
+    transform: translateY(-6.5px) rotate(-45deg);
+  }
+
+  /* MOBILE DRAWER — centered modal */
+  .nav-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(11, 18, 40, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 150;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .nav-overlay.open { display: flex; }
+
+  .nav-modal {
+    background: rgba(14, 22, 48, 0.97);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2.5rem 3rem;
+    min-width: 260px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.6rem;
+    box-shadow: 0 0 60px rgba(0,0,0,0.6), 0 0 30px rgba(0,200,255,0.06);
+  }
+
+  .nav-modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text3);
+    font-size: 1.2rem;
+    line-height: 1;
+    padding: 4px;
+    transition: color 0.2s;
+  }
+
+  .nav-modal-close:hover { color: var(--accent); }
+
+  .nav-modal a {
+    font-family: var(--mono);
+    font-size: 0.88rem;
+    color: var(--text2);
+    text-decoration: none;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-modal a:hover { color: var(--accent); }
+
+  @media (max-width: 1300px) {
+    nav {
+      padding: 1rem 1.5rem;
+      flex-direction: row-reverse;
+    }
+    .nav-links { display: none; }
+    .nav-hamburger { display: flex; }
+  }
+
+  /* SECTIONS */
+  section {
+    position: relative;
+    z-index: 1;
+    padding: 7rem 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    scroll-margin-top: 90px;
+  }
+
+  #affiliations { scroll-margin-top: 100px; }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding-top: 6rem;
+    padding-bottom: 4rem;
+    padding-left: 4rem;
+    padding-right: 4rem;
+    position: relative;
+    width: 100vw;
+    max-width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+  }
+
+  .hero-label {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+
+  .hero-name {
+    font-family: var(--display);
+    font-size: clamp(1.6rem, 2.8vw, 2.8rem);
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--text);
+    letter-spacing: 0.02em;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.35s forwards;
+  }
+
+  .hero-name span { color: var(--accent); }
+
+  .hero-photo {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    border: 1.5px solid var(--accent);
+    box-shadow: 0 0 28px rgba(0,200,255,0.22), 0 0 60px rgba(0,200,255,0.07);
+    overflow: hidden;
+    background: var(--surface2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.5s forwards;
+  }
+
+  body.light .hero-photo {
+    box-shadow: 0 0 28px rgba(10,61,143,0.2), 0 0 60px rgba(10,61,143,0.08);
+  }
+
+  .hero-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .hero-photo-placeholder {
+    font-family: var(--display);
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--accent);
+    opacity: 0.45;
+  }
+
+  .hero-tagline {
+    font-family: var(--body);
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    font-weight: 300;
+    color: var(--text2);
+    max-width: 560px;
+    margin-bottom: 1rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s forwards;
+  }
+
+  .hero-position {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--accent2);
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.7s forwards;
+  }
+
+  .hero-links {
+    display: flex;
+    gap: 1.2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.9s forwards;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .hero-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.4rem;
+    border: 1px solid rgba(0,200,255,0.35);
+    border-radius: 4px;
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--text);
+    text-decoration: none;
+    transition: all 0.2s;
+    background: rgba(255,255,255,0.06);
+  }
+
+  body.light .hero-link {
+    background: rgba(255,255,255,0.7);
+    border-color: rgba(10,61,143,0.2);
+    color: var(--text2);
+  }
+
+  .hero-link:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(0,200,255,0.07);
+  }
+
+  body.light .hero-link:hover {
+    background: rgba(255,255,255,0.95);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 1.2s forwards;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .hero-scroll span,
+  .scroll-text {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--text3);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: color 0.2s;
+    pointer-events: auto;
+  }
+
+  .scroll-text:hover { color: var(--accent); }
+
+  .scroll-line {
+    width: 40px;
+    height: 1px;
+    background: var(--text3);
+    animation: expandLine 2s 1.5s infinite;
+  }
+
+  .scroll-line.right {
+    animation: expandLineRight 2s 1.5s infinite;
+  }
+
+  @keyframes expandLineRight {
+    0%, 100% { width: 40px; opacity: 0.4; }
+    50% { width: 70px; opacity: 1; }
+  }
+
+  .sub-section-title {
+    font-family: var(--display);
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 1.5rem;
+    margin-top: 3rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sub-section-title:first-of-type { margin-top: 0; }
+
+  /* SECTION HEADERS */
+  .section-label {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+  }
+
+  .section-title {
+    font-family: var(--display);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 3rem;
+    line-height: 1.1;
+  }
+
+  /* ABOUT */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+  }
+
+  .about-text p {
+    color: var(--text2);
+    margin-bottom: 1.4rem;
+    font-weight: 300;
+    font-size: 1.1rem;
+    max-width: 720px;
+  }
+
+  .about-text p:last-child { margin-bottom: 0; }
+
+  .about-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .stat-card {
+    padding: 1.2rem 1.4rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    transition: all 0.3s;
+  }
+
+  .stat-card:hover {
+    border-color: rgba(0,200,255,0.25);
+    background: var(--surface2);
+  }
+
+  .stat-icon {
+    font-size: 1.8rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .stat-number {
+    font-family: var(--display);
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+
+  .stat-number-sm {
+    font-family: var(--display);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-label {
+    font-size: 0.82rem;
+    color: var(--text3);
+    line-height: 1.5;
+    font-weight: 300;
+  }
+
+  .about-video {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .about-video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+
+  .about-video-wrapper iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    border: 0;
+  }
+
+  .about-video-caption {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--text3);
+  }
+
+  .about-video-caption strong { color: var(--accent); }
+
+  .about-video-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+    flex-shrink: 0;
+    animation: pulse 2s infinite;
+  }
+
+  .dive-video { max-width: 760px; margin: 0 auto; }
+
+  /* RESEARCH AREAS */
+  .research-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 680px;
+    gap: 1.4rem;
+  }
+
+  .research-card {
+    padding: 1.4rem 1.6rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .research-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 2px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .research-card:hover {
+    border-color: rgba(0,200,255,0.3);
+    background: var(--surface2);
+    transform: translateY(-3px);
+  }
+
+  .research-card:hover::before { opacity: 1; }
+
+  .research-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .research-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .research-icon {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+  }
+
+  .research-card h3 {
+    font-family: var(--display);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0;
+  }
+
+  .research-card p {
+    font-size: 1rem;
+    color: var(--text2);
+    font-weight: 300;
+    line-height: 1.6;
+  }
+
+  /* SOFTWARE */
+  .software-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 280px));
+    justify-content: center;
+    gap: 1.4rem;
+  }
+
+  .software-card {
+    padding: 1.4rem 1.6rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    transition: all 0.3s;
+  }
+
+  .software-card:hover {
+    border-color: rgba(0,255,157,0.3);
+    background: var(--surface2);
+  }
+
+  .software-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.8rem;
+  }
+
+  .software-name {
+    font-family: var(--display);
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .software-link {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--text3);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    padding: 0.3rem 0.8rem;
+    border-radius: 4px;
+    transition: all 0.2s;
+  }
+
+  .software-link:hover {
+    color: var(--accent2);
+    border-color: var(--accent2);
+  }
+
+  .software-desc {
+    font-size: 1rem;
+    color: var(--text2);
+    margin-bottom: 0.8rem;
+    font-weight: 300;
+  }
+
+  .tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--accent3);
+    background: rgba(123,108,255,0.1);
+    border: 1px solid rgba(123,108,255,0.2);
+    padding: 0.2rem 0.6rem;
+    border-radius: 3px;
+    letter-spacing: 0.05em;
+  }
+
+  /* PUBLICATIONS */
+  .pub-section { margin-bottom: 3rem; max-width: 720px; }
+
+  .pub-section-title {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--accent2);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .pub-item {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid rgba(0,200,255,0.06);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.5rem;
+    align-start: start;
+  }
+
+  .pub-number {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--text3);
+    padding-top: 0.2rem;
+    min-width: 2rem;
+  }
+
+  .pub-content {}
+
+  .pub-title {
+    font-size: 1.05rem;
+    color: var(--text);
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+    line-height: 1.4;
+  }
+
+  .pub-authors {
+    font-size: 0.92rem;
+    color: var(--text2);
+    margin-bottom: 0.3rem;
+    font-weight: 300;
+  }
+
+  .pub-authors strong { color: var(--accent); }
+
+  .pub-journal {
+    font-family: var(--mono);
+    font-size: 0.88rem;
+    color: var(--text2);
+  }
+
+  .pub-doi {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--accent);
+    text-decoration: none;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+
+  .pub-doi:hover { opacity: 1; }
+
+  /* FIELD EXPERIENCE */
+  .field-timeline {
+    position: relative;
+    padding-left: 2rem;
+  }
+
+  .field-timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(180deg, var(--accent), transparent);
+  }
+
+  .field-item {
+    position: relative;
+    padding: 0 0 3rem 2.5rem;
+  }
+
+  .field-item::before {
+    content: '';
+    position: absolute;
+    left: -4px;
+    top: 0.4rem;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent);
+  }
+
+  .field-date {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.4rem;
+  }
+
+  .field-title {
+    font-family: var(--display);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.3rem;
+  }
+
+  .field-location {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--text2);
+    margin-bottom: 0.6rem;
+  }
+
+  .field-desc {
+    font-size: 1rem;
+    color: var(--text2);
+    font-weight: 300;
+    max-width: 600px;
+  }
+
+  /* VIDEO */
+  .alvin-video-block {
+    margin-bottom: 4rem;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    background: var(--surface);
+  }
+
+  .alvin-video-label {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.2rem 1.8rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+  }
+
+  .alvin-video-label .dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 10px var(--accent);
+    animation: pulse 2s infinite;
+  }
+
+  .alvin-video-label span {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--text2);
+    letter-spacing: 0.08em;
+  }
+
+  .alvin-video-label strong {
+    color: var(--accent);
+  }
+
+  .video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+  }
+
+  .video-wrapper iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    border: 0;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* EDUCATION */
+  .field-pi {
+    display: inline-block;
+    margin-top: 0.4rem;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+  }
+
+  .edu-timeline {
+    position: relative;
+    padding-left: 2rem;
+  }
+
+  .edu-timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(180deg, var(--accent4), transparent);
+  }
+
+  .edu-item {
+    position: relative;
+    padding: 0 0 3.5rem 2.5rem;
+  }
+
+  .edu-item::before {
+    content: '';
+    position: absolute;
+    left: -5px; top: 0.3rem;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--accent4);
+    box-shadow: 0 0 14px var(--accent4);
+  }
+
+  .edu-year {
+    font-family: var(--mono);
+    font-size: 0.73rem;
+    color: var(--accent2);
+    letter-spacing: 0.12em;
+    margin-bottom: 0.4rem;
+  }
+
+  .edu-degree {
+    font-family: var(--display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.2rem;
+  }
+
+  .edu-institution {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--text2);
+    margin-bottom: 0.6rem;
+  }
+
+  .edu-grade {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--accent2);
+    background: rgba(0,255,157,0.08);
+    border: 1px solid rgba(0,255,157,0.2);
+    padding: 0.2rem 0.7rem;
+    border-radius: 3px;
+    margin-bottom: 0.7rem;
+  }
+
+  .edu-thesis {
+    font-size: 0.98rem;
+    color: var(--text);
+    font-weight: 300;
+    font-style: italic;
+    max-width: 620px;
+    line-height: 1.5;
+    opacity: 0.75;
+  }
+
+  /* SKILLS */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .skill-category {
+    padding: 1.2rem 1.4rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    transition: all 0.3s;
+  }
+
+  .skill-category:hover {
+    border-color: rgba(123,108,255,0.3);
+    background: var(--surface2);
+  }
+
+  .skill-cat-header {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin-bottom: 0.9rem;
+  }
+
+  .skill-cat-icon { font-size: 1.4rem; }
+
+  .skill-cat-title {
+    font-family: var(--display);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .skill-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .skill-pill {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: 3px;
+    letter-spacing: 0.04em;
+    color: var(--accent);
+    background: rgba(0,200,255,0.08);
+    border: 1px solid rgba(0,200,255,0.2);
+  }
+
+  .skill-pill.adv,
+  .skill-pill.mid,
+  .skill-pill.bas {
+    color: var(--accent);
+    background: rgba(0,200,255,0.08);
+    border: 1px solid rgba(0,200,255,0.2);
+  }
+
+  /* CONFERENCES */
+  .conf-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+  }
+
+  .conf-item {
+    padding: 1rem 1.3rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    transition: all 0.2s;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+    align-items: start;
+  }
+
+  .conf-item:hover {
+    border-color: rgba(0,200,255,0.2);
+    background: var(--surface2);
+  }
+
+  .conf-badge {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+    margin-top: 0.15rem;
+    align-self: start;
+  }
+
+  .conf-badge.talk {
+    color: var(--accent);
+    background: rgba(0,200,255,0.08);
+    border: 1px solid rgba(0,200,255,0.2);
+  }
+
+  .conf-badge.poster {
+    color: var(--accent3);
+    background: rgba(123,108,255,0.08);
+    border: 1px solid rgba(123,108,255,0.2);
+  }
+
+  .conf-badge.invited {
+    color: var(--accent2);
+    background: rgba(0,255,157,0.08);
+    border: 1px solid rgba(0,255,157,0.2);
+  }
+
+  .conf-badge.award {
+    color: #ffd700;
+    background: rgba(255,215,0,0.08);
+    border: 1px solid rgba(255,215,0,0.2);
+  }
+
+  .conf-title {
+    font-size: 1rem;
+    color: var(--text);
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+    line-height: 1.4;
+  }
+
+  .conf-event {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--text2);
+  }
+
+  /* CONTACT */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+  }
+
+  .contact-info p {
+    color: var(--text2);
+    font-weight: 300;
+    margin-bottom: 2rem;
+  }
+
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--text2);
+    text-decoration: none;
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    transition: color 0.2s;
+  }
+
+  .contact-link:hover { color: var(--accent); }
+
+  .contact-link-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .copy-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    background: transparent;
+    color: var(--text2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .copy-btn:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .copy-btn .copy-tooltip {
+    position: absolute;
+    bottom: 130%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--accent);
+    color: var(--bg);
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 0.25rem 0.55rem;
+    border-radius: 4px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+  }
+
+  .copy-btn.copied .copy-tooltip {
+    opacity: 1;
+  }
+
+  .copy-btn .icon-copy, .copy-btn .icon-check {
+    position: absolute;
+    transition: opacity 0.15s;
+  }
+
+  .copy-btn .icon-check { opacity: 0; }
+  .copy-btn.copied .icon-copy { opacity: 0; }
+  .copy-btn.copied .icon-check { opacity: 1; }
+
+  .cv-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin-top: 2rem;
+    padding: 0.9rem 2rem;
+    background: var(--accent);
+    color: var(--bg);
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: all 0.2s;
+  }
+
+  .cv-btn:hover {
+    background: #33d4ff;
+    transform: translateY(-2px);
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .form-group label {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--text3);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.9rem 1.1rem;
+    color: var(--text);
+    font-family: var(--body);
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+    resize: none;
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus {
+    border-color: var(--accent);
+  }
+
+  .form-group textarea { min-height: 130px; }
+
+  .submit-btn {
+    padding: 0.9rem 2rem;
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    align-self: flex-start;
+  }
+
+  .submit-btn:hover {
+    background: var(--accent);
+    color: var(--bg);
+  }
+
+  .contact-simple {
+    max-width: 560px;
+  }
+
+  .contact-simple p {
+    color: var(--text2);
+    font-weight: 300;
+    margin-bottom: 2rem;
+  }
+
+  /* FOOTER */
+  footer {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 3rem;
+    border-top: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--text3);
+  }
+
+  /* DIVIDER */
+  .section-divider {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 4rem;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes expandLine {
+    0%, 100% { width: 40px; opacity: 0.4; }
+    50% { width: 70px; opacity: 1; }
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 2rem; }
+    .nav-links { gap: 1.5rem; }
+    section { padding: 5rem 2rem; }
+    #hero { padding: 8rem 2rem 5rem; }
+    .about-grid,
+    .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .research-grid,
+    .software-grid,
+    .skills-grid,
+    .conf-grid { grid-template-columns: 1fr; }
+    .about-stats { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 600px) {
+    .nav-links { display: none; }
+    .hero-name { font-size: 2.8rem; }
+    .about-stats { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="starfield"></canvas>
+
+<!-- NAV -->
+<nav>
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <a href="#hero" class="nav-logo" aria-label="Home">
+    <svg width="36" height="18" viewBox="0 0 36 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <text x="18" y="13" text-anchor="middle" font-family="'DM Mono', monospace" font-size="15" font-weight="400" letter-spacing="1"><tspan class="logo-d">D·</tspan><tspan class="logo-c">C</tspan></text>
+    </svg>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#output">Scientific Output</a></li>
+    <li><a href="#field">Field</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#academia">Academia</a></li>
+    <li><a href="#affiliations">Affiliations</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#dive">Dive</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- MOBILE DRAWER -->
+<div class="nav-overlay" id="nav-drawer">
+  <div class="nav-modal">
+    <button class="nav-modal-close" onclick="closeDrawer()" aria-label="Close menu">✕</button>
+    <a href="#hero"        onclick="closeDrawer()">Home</a>
+    <a href="#about"       onclick="closeDrawer()">About</a>
+    <a href="#research"    onclick="closeDrawer()">Research</a>
+    <a href="#output"      onclick="closeDrawer()">Scientific Output</a>
+    <a href="#field"       onclick="closeDrawer()">Field</a>
+    <a href="#experience"  onclick="closeDrawer()">Experience</a>
+    <a href="#education"   onclick="closeDrawer()">Education</a>
+    <a href="#academia"    onclick="closeDrawer()">Academia</a>
+    <a href="#affiliations" onclick="closeDrawer()">Affiliations</a>
+    <a href="#skills"      onclick="closeDrawer()">Skills</a>
+    <a href="#dive"        onclick="closeDrawer()">Dive</a>
+    <a href="#contact"     onclick="closeDrawer()">Contact</a>
+  </div>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-label">Researcher · Bioinformatician · Astrobiologist</div>
+  <h1 class="hero-name">Davide <span>Corso</span></h1>
+  <div class="hero-photo">
+    <img src="img/IMG_0294.png" alt="Davide Corso">
+    <!-- <div class="hero-photo-placeholder">DC</div> -->
+  </div>
+  <p class="hero-tagline">Bridging microbial ecology, metagenomics and space science — from deep-sea hydrothermal vents to Martian analogues.</p>
+  <p class="hero-position">→ Research Fellow, CNR-IRSA — Roma Montelibretti</p>
+  <div class="hero-links">    <a href="https://github.com/davidecrs" class="hero-link" target="_blank">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+      GitHub
+    </a>
+    <a href="https://www.linkedin.com/in/davidecorso" class="hero-link" target="_blank">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      LinkedIn
+    </a>
+    <a href="mailto:davide.corso@irsa.cnr.it" class="hero-link">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      Email
+    </a>
+    <a href="https://orcid.org/0000-0001-8845-3693" class="hero-link" target="_blank">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.372 0 0 5.372 0 12s5.372 12 12 12 12-5.372 12-12S18.628 0 12 0zM7.369 4.378c.525 0 .947.431.947.947s-.422.947-.947.947a.95.95 0 0 1-.947-.947c0-.516.422-.947.947-.947zm-.722 3.038h1.444v10.041H6.647V7.416zm3.562 0h3.9c3.712 0 5.344 2.653 5.344 5.025 0 2.578-2.016 5.016-5.325 5.016h-3.919V7.416zm1.444 1.303v7.444h2.297c3.272 0 4.022-2.484 4.022-3.722 0-2.016-1.284-3.722-4.097-3.722h-2.222z"/></svg>
+      ORCID
+    </a>
+  </div>
+  <div class="hero-scroll"><div class="scroll-line"></div><a href="#about" class="scroll-text">Scroll to explore</a><div class="scroll-line right"></div></div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">// 00 — About</div>
+  <h2 class="section-title">Who I Am</h2>
+  <div class="about-text">
+    <p>I am a computational biologist driven by a single question: how does life adapt to the most extreme conditions on Earth — and what does that tell us about the possibility of life elsewhere? I build bioinformatic tools and pipelines to decode microbial communities, then apply them to environments that push biology to its limits — from deep-sea hydrothermal vents to hypersaline planetary analogues.</p>
+    <p>Currently a Research Fellow at CNR, my work combines field campaigns — including a dive at 2,518 metres aboard the HOV Alvin — with high-performance computational analysis. I am also increasingly interested in the theoretical principles that govern how microbial communities sustain cooperation and stability under extreme energetic constraints.</p>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- RESEARCH -->
+<section id="research">
+  <div class="section-label">// 01 — Research</div>
+  <h2 class="section-title">Research Areas</h2>
+  <div class="research-grid">
+    <div class="research-card">
+      <div class="research-card-header">
+        <div class="research-icon">🧬</div>
+        <h3>Environmental Metagenomics</h3>
+      </div>
+      <p>Characterising microbial communities in extreme and aquatic environments — from constructed wetlands and coastal aquifers to deep-sea hydrothermal vents — using 16S rRNA sequencing and whole-metagenome approaches.</p>
+    </div>
+    <div class="research-card">
+      <div class="research-card-header">
+        <div class="research-icon">🪐</div>
+        <h3>Astrobiology & Planetary Analogues</h3>
+      </div>
+      <p>Investigating hypersaline and geochemically extreme environments as analogues for Mars and other planetary bodies, with a focus on biosignature formation and the potential for life in extreme conditions.</p>
+    </div>
+    <div class="research-card">
+      <div class="research-card-header">
+        <div class="research-icon">⚙️</div>
+        <h3>Bioinformatics Tool Development</h3>
+      </div>
+      <p>Designing and maintaining flexible, reproducible pipelines and R packages for metagenomic analysis, spatial transcriptomics, and biological network visualisation — built for scientists without deep computational backgrounds.</p>
+    </div>
+    <div class="research-card">
+      <div class="research-card-header">
+        <div class="research-icon">🛰️</div>
+        <h3>Earth Observation & Space Data</h3>
+      </div>
+      <p>Applying satellite remote sensing, geospatial analysis and climate system monitoring to environmental research, integrating orbital data with ground-truth biological and geochemical observations.</p>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- SCIENTIFIC OUTPUT -->
+<section id="output">
+  <div class="section-label">// 02 — Scientific Output</div>
+  <h2 class="section-title">Scientific Output</h2>
+
+  <h3 class="sub-section-title">Publications</h3>
+  <div class="pub-section">
+    <div class="pub-section-title">Published</div>
+
+    <div class="pub-item">
+      <div class="pub-number">[1]</div>
+      <div class="pub-content">
+        <div class="pub-title">MyoData: An expression knowledgebase at single cell/nucleus level for the discovery of coding-noncoding RNA functional interactions in skeletal muscle</div>
+        <div class="pub-authors"><strong>Corso D.</strong>, Chemello F., Alessio E., Urso I., Ferrarese G., et al. (2021)</div>
+        <div class="pub-journal">Computational and Structural Biotechnology Journal, 19, 4142–4155 · <a href="https://doi.org/10.1016/j.csbj.2021.07.020" class="pub-doi" target="_blank">DOI →</a></div>
+      </div>
+    </div>
+
+    <div class="pub-item">
+      <div class="pub-number">[2]</div>
+      <div class="pub-content">
+        <div class="pub-title">A thorough annotation of the krill transcriptome offers new insights for the study of physiological processes</div>
+        <div class="pub-authors">Urso I., Biscontin A., <strong>Corso D.</strong>, Bertolucci C., Romualdi C., et al. (2022)</div>
+        <div class="pub-journal">Scientific Reports, 12, 11415 · <a href="https://doi.org/10.1038/s41598-022-15320-5" class="pub-doi" target="_blank">DOI →</a></div>
+      </div>
+    </div>
+
+    <div class="pub-item">
+      <div class="pub-number">[3]</div>
+      <div class="pub-content">
+        <div class="pub-title">Surface Bacterioplankton Community Structure Crossing the Antarctic Circumpolar Current Fronts</div>
+        <div class="pub-authors">Cordone A., Selci M., Barosa B., Bastianoni A., …, <strong>Corso D.</strong>, et al. (2023)</div>
+        <div class="pub-journal">Microorganisms, 11(3):702 · <a href="https://doi.org/10.3390/microorganisms11030702" class="pub-doi" target="_blank">DOI →</a></div>
+      </div>
+    </div>
+
+    <div class="pub-item">
+      <div class="pub-number">[4]</div>
+      <div class="pub-content">
+        <div class="pub-title">Diversity of Thermophilic Prokaryotes</div>
+        <div class="pub-authors">Vilhelmsson O., Sigurbjornsdottir M.A., Thorsteinsdottir G.V., Cascone M., <strong>Corso D.</strong>, et al. (2023)</div>
+        <div class="pub-journal">Thermophilic Anaerobes, Springer · <a href="https://doi.org/10.1007/978-3-031-41720-7_2" class="pub-doi" target="_blank">DOI →</a></div>
+      </div>
+    </div>
+
+    <div class="pub-item">
+      <div class="pub-number">[5]</div>
+      <div class="pub-content">
+        <div class="pub-title">Constructed wetlands for aquaculture wastewater treatment: Insights on the structural and functional shifts of the aquatic microbial community</div>
+        <div class="pub-authors"><strong>Corso D.</strong>, Melita M., Massaccesi N., Quero G.M., Basili M., Di Cesare A., et al. (2026)</div>
+        <div class="pub-journal">Bioresource Technology, 448, 134278 · <a href="https://doi.org/10.1016/j.biortech.2026.134278" class="pub-doi" target="_blank">DOI →</a></div>
+      </div>
+    </div>
+
+    <div class="pub-item">
+      <div class="pub-number">[6]</div>
+      <div class="pub-content">
+        <div class="pub-title">Ancient Roman saltworks drive the present-day microbial community profiles in the coastal aquifer of the Tiber River delta</div>
+        <div class="pub-authors">Boccanera M., Amalfitano S., Melita M., <strong>Corso D.</strong>, Valle A., Ghergo S., Preziosi E. (2026)</div>
+        <div class="pub-journal">Journal of Hydrology: Regional Studies, 65, 103448 · <a href="https://doi.org/10.1016/j.ejrh.2026.103448" class="pub-doi" target="_blank">DOI →</a></div>
+      </div>
+    </div>
+
+    <div class="pub-item">
+      <div class="pub-number">[7]</div>
+      <div class="pub-content">
+        <div class="pub-title">Freshwater beach sandy sediments harbour latent β-lactamases with deep phylogenetic roots in Chitinophagaceae</div>
+        <div class="pub-authors"><strong>Corso D.</strong>, Iburg S., Coci M., Cordone A., Cesare A.D., Giovannelli D., Sbaffi T., Martínez A., Eckert E.M. (2026)</div>
+        <div class="pub-journal">Preprint · <a href="https://doi.org/10.21203/rs.3.rs-8368209/v1" class="pub-doi" target="_blank">DOI →</a></div>
+      </div>
+    </div>
+
+    <div class="pub-item">
+      <div class="pub-number">[8]</div>
+      <div class="pub-content">
+        <div class="pub-title">Hydrogenotrophic metabolisms in the subsurface and their implications for underground hydrogen storage and natural hydrogen prospecting</div>
+        <div class="pub-authors">Cascone M., Gargallo G.C., Migliaccio F., <strong>Corso D.</strong>, et al. (2026)</div>
+        <div class="pub-journal">Earth-Science Reviews, 281, 105620 · <a href="https://doi.org/10.1016/j.earscirev.2026.105620" class="pub-doi" target="_blank">DOI →</a></div>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="sub-section-title">Tools & Packages</h3>
+  <div class="software-grid">
+
+    <div class="software-card">
+      <div class="software-header">
+        <div class="software-name">Geomosaic</div>
+        <a href="https://github.com/giovannellilab/Geomosaic" class="software-link" target="_blank">GitHub →</a>
+      </div>
+      <p class="software-desc">A flexible metagenomic pipeline combining read-based analysis, assemblies and MAGs with downstream biological and geochemical data integration. Designed for reproducibility and ease of use without deep bioinformatic expertise.</p>
+      <div class="tags">
+        <span class="tag">Python</span>
+        <span class="tag">Snakemake</span>
+        <span class="tag">Metagenomics</span>
+        <span class="tag">HPC</span>
+      </div>
+    </div>
+
+    <div class="software-card">
+      <div class="software-header">
+        <div class="software-name">polygonPlot</div>
+        <a href="https://github.com/giovannellilab/polygonPlot" class="software-link" target="_blank">GitHub →</a>
+      </div>
+      <p class="software-desc">An R package for multivariate data range visualisation, displaying 3–6 variables simultaneously with min/max and mean for each — ideal for comparing environmental profiles across sampling sites.</p>
+      <div class="tags">
+        <span class="tag">R</span>
+        <span class="tag">CRAN</span>
+        <span class="tag">Visualisation</span>
+        <span class="tag">Multivariate</span>
+      </div>
+    </div>
+
+    <div class="software-card">
+      <div class="software-header">
+        <div class="software-name">spatialDE</div>
+        <a href="https://bioconductor.org/packages/release/bioc/html/spatialDE.html" class="software-link" target="_blank">Bioconductor →</a>
+      </div>
+      <p class="software-desc">An R/Bioconductor wrapper for the SpatialDE Python library, enabling identification of spatially variable genes in spatial transcriptomics data directly from R with a native Bioconductor interface.</p>
+      <div class="tags">
+        <span class="tag">R</span>
+        <span class="tag">Bioconductor</span>
+        <span class="tag">Spatial Transcriptomics</span>
+      </div>
+    </div>
+
+    <div class="software-card">
+      <div class="software-header">
+        <div class="software-name">itGraph</div>
+        <a href="https://sales.bio.unipd.it/itgraph/" class="software-link" target="_blank">Web App →</a>
+      </div>
+      <p class="software-desc">A web application for interactive visualisation of biological regulatory networks, combining multiple layout algorithms and network types to highlight functional modules within biological pathways.</p>
+      <div class="tags">
+        <span class="tag">React.js</span>
+        <span class="tag">Python</span>
+        <span class="tag">Cytoscape.js</span>
+        <span class="tag">Networks</span>
+      </div>
+    </div>
+
+    <div class="software-card">
+      <div class="software-header">
+        <div class="software-name">MyoData</div>
+        <a href="https://myodata.bio.unipd.it" class="software-link" target="_blank">Web App →</a>
+      </div>
+      <p class="software-desc">An expression knowledgebase at single cell and nucleus level for the discovery of coding–noncoding RNA functional interactions in skeletal muscle, integrating miRNA, lncRNA and mRNA co-regulation networks.</p>
+      <div class="tags">
+        <span class="tag">React.js</span>
+        <span class="tag">Python</span>
+        <span class="tag">SQLite</span>
+        <span class="tag">RocksDB</span>
+        <span class="tag">Networks</span>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<div class="section-divider"></div>
+
+<!-- FIELD EXPERIENCE -->
+<section id="field">
+  <div class="section-label">// 03 — Field</div>
+  <h2 class="section-title">Field Experience</h2>
+
+  <div class="field-timeline">
+
+    <div class="field-item">
+      <div class="field-date">February 2024</div>
+      <div class="field-title">🤿 Alvin Deep Dive #5229</div>
+      <div class="field-location">📍 East Pacific Rise, 9°50'N — Pacific Ocean, 2,518 m depth</div>
+      <div class="field-desc">Participated as starboard observer aboard the deep-submergence vehicle HOV Alvin for an 8-hour dive to sample hydrothermal vent fluids and biofilms at the Tica and Biovent sites. One of fewer than a thousand people to have dived in Alvin.</div>
+    </div>
+
+    <div class="field-item">
+      <div class="field-date">January – February 2024</div>
+      <div class="field-title">🚢 AT50-20 Oceanographic Expedition — R/V Atlantis</div>
+      <div class="field-location">📍 East Pacific Rise, 9°50'N — 104°17'W</div>
+      <div class="field-desc">31-day NSF-funded oceanographic cruise aboard the WHOI research vessel Atlantis. Sampled high- and low-temperature hydrothermal vent fluids at 2,500 m depth using titanium syringe samplers at sites Tica, Biovent, Bio9, L-Vent and V-Vent.</div>
+    </div>
+
+    <div class="field-item">
+      <div class="field-date">April 2024</div>
+      <div class="field-title">🪨 ICDP-DIVE — Ivrea-Verbano Zone</div>
+      <div class="field-location">📍 Ivrea-Verbano, Northern Italy</div>
+      <div class="field-desc">Participated in the International Continental Drilling Program campaign, responsible for collection, processing and preservation of rock core samples from the lower continental crust exposed at the Ivrea-Verbano Zone.</div>
+    </div>
+
+    <div class="field-item">
+      <div class="field-date">2025 – Ongoing</div>
+      <div class="field-title">💧 VFN Valle del Sacco — Groundwater Sampling</div>
+      <div class="field-location">📍 Sacco River Basin, Lazio, Italy</div>
+      <div class="field-desc">Multiple sampling campaigns across 2025 to characterise the natural geochemical background of groundwater and soil in the Sacco River national interest site (SIN), in collaboration with CNR-IRSA and ARPA Lazio.</div>
+    </div>
+
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-label">// 04 — Experience</div>
+  <h2 class="section-title">Experience</h2>
+  <div class="field-timeline">
+
+    <div class="field-item">
+      <div class="field-date">2024 — Present</div>
+      <div class="field-title">Postdoctoral Research Fellow</div>
+      <div class="field-location">📍 CNR-IRSA — Roma Montelibretti</div>
+      <div class="field-desc">Research on microbial communities in extreme and aquatic environments, with a focus on metagenomics, antibiotic resistance genomics, and astrobiology. Development and maintenance of open-source bioinformatic tools and pipelines.<br><span class="field-pi">PI: Dr. Stefano Amalfitano</span></div>
+    </div>
+
+    <div class="field-item">
+      <div class="field-date">2022 — 2024</div>
+      <div class="field-title">Postdoctoral Research Fellow</div>
+      <div class="field-location">📍 Università degli Studi di Napoli Federico II</div>
+      <div class="field-desc">Development of new bioinformatic tools for the analysis of microbial diversity in extreme environments using metagenomic approaches. Participation in international field expeditions including the NSF-funded AT50-20 oceanographic cruise aboard R/V Atlantis.<br><span class="field-pi">PI: Prof. Donato Giovannelli</span></div>
+    </div>
+
+    <div class="field-item">
+      <div class="field-date">2018 — 2019</div>
+      <div class="field-title">Research Fellow</div>
+      <div class="field-location">📍 Università degli Studi di Padova</div>
+      <div class="field-desc">Development of computational methods for the reconstruction and analysis of gene interaction networks between protein-coding genes, microRNAs and lncRNAs in relation to metabolic changes in skeletal muscle fibre types.<br><span class="field-pi">PI: Dr. Gabriele Sales</span></div>
+    </div>
+
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-label">// 05 — Education</div>
+  <h2 class="section-title">Education</h2>
+  <div class="edu-timeline">
+
+    <div class="edu-item">
+      <div class="edu-year">2026</div>
+      <div class="edu-degree">International Master's programme in Space Missions Science, Design and Applications (SPICES)</div>
+      <div class="edu-institution">Alma Mater Studiorum — Università di Bologna</div>
+      <div class="edu-thesis">Microbial community structure and biosignature potential in a hypersaline planetary field analogue: insights from the Kudiakam Pan, Makgadikgadi Basin (Botswana)</div>
+    </div>
+
+    <div class="edu-item">
+      <div class="edu-year">2023</div>
+      <div class="edu-degree">PhD in Biosciences — Genetics, Genomics & Bioinformatics</div>
+      <div class="edu-institution">Università degli Studi di Padova</div>
+      <div class="edu-thesis">Exploring biological signals: from pathway visualization to spatial transcriptomics</div>
+    </div>
+
+    <div class="edu-item">
+      <div class="edu-year">2018</div>
+      <div class="edu-degree">MSc in Bioinformatics</div>
+      <div class="edu-institution">Università degli Studi di Roma Tor Vergata</div>
+      <div class="edu-thesis">Analysis of gene expression variation based on associations between DNA:DNA:ncRNA triple helices and epigenetic signals</div>
+    </div>
+
+    <div class="edu-item">
+      <div class="edu-year">2017</div>
+      <div class="edu-degree">BSc in Computer Science</div>
+      <div class="edu-institution">Università degli Studi di Roma Tor Vergata</div>
+      <div class="edu-thesis">Analysis of secondary structure prediction stability as a function of flanking sequences in non-coding RNAs</div>
+    </div>
+
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ACADEMIA -->
+<section id="academia">
+  <div class="section-label">// 06 — Academia</div>
+  <h2 class="section-title">Academia</h2>
+  <h3 class="sub-section-title">Teaching</h3>
+  <div class="field-timeline">
+
+    <div class="field-item">
+      <div class="field-date">AY 2023/2024</div>
+      <div class="field-title">Microbial Colonization of Terrestrial Analogs and Habitability</div>
+      <div class="field-location">📍 MSc in Biology of Extreme Environments — Università degli Studi di Napoli Federico II</div>
+      <div class="field-desc">Teaching assistant. Course held by Prof. Donato Giovannelli. Topics covered microbial colonization strategies in extreme terrestrial environments and their implications for planetary habitability research.</div>
+    </div>
+
+    <div class="field-item">
+      <div class="field-date">AY 2019/2020 · 2020/2021 · 2021/2022</div>
+      <div class="field-title">Molecular Genetics</div>
+      <div class="field-location">📍 MSc in Molecular Biology — Università degli Studi di Padova</div>
+      <div class="field-desc">Teaching assistant for three consecutive academic years. Course held by Prof. Gabriele Sales. Supported students in understanding molecular genetics principles and their computational applications.</div>
+    </div>
+
+    <div class="field-item">
+      <div class="field-date">AY 2020/2021 · 2021/2022</div>
+      <div class="field-title">Omic Data: Analysis and Experimental Design</div>
+      <div class="field-location">📍 BSc in Molecular Biology — Università degli Studi di Padova</div>
+      <div class="field-desc">Teaching assistant for two academic years. Course held by Prof. Chiara Romualdi and Prof. Gabriele Sales. Covered experimental design and computational analysis of multi-omic datasets including RNA-seq and related technologies.</div>
+    </div>
+
+  </div>
+
+  <h3 class="sub-section-title">Conferences & Talks</h3>
+  <div class="conf-grid">
+
+    <div class="conf-item">
+      <span class="conf-badge award">🏆 Poster Award</span>
+      <div>
+        <div class="conf-title">Flow cytometry as a tool to track microbial community shifts in constructed wetlands treating Aquaculture Effluents</div>
+        <div class="conf-event">43^ Conferenza Nazionale di Citometria (Cytometry 2025) — Category: Environment</div>
+      </div>
+    </div>
+
+    <div class="conf-item">
+      <span class="conf-badge invited">Invited Talk</span>
+      <div>
+        <div class="conf-title">Geomosaic: A flexible metagenomic pipeline combining biological and geochemical data</div>
+        <div class="conf-event">CNR-IRSA Verbania — July 2024</div>
+      </div>
+    </div>
+
+    <div class="conf-item">
+      <span class="conf-badge poster">Poster</span>
+      <div>
+        <div class="conf-title">Geomosaic: A flexible metagenomic pipeline combining biological and geochemical data</div>
+        <div class="conf-event">SIMGBM — Cagliari, September 2024</div>
+      </div>
+    </div>
+
+    <div class="conf-item">
+      <span class="conf-badge talk">Flash Talk</span>
+      <div>
+        <div class="conf-title">Geomosaic: A flexible metagenomic pipeline combining biological and geochemical data</div>
+        <div class="conf-event">SIA — Società Italiana di Astrobiologia, Roma — June 2024</div>
+      </div>
+    </div>
+
+    <div class="conf-item">
+      <span class="conf-badge poster">Poster</span>
+      <div>
+        <div class="conf-title">Novel visualization layout of regulatory networks highlights biological modules in pathway</div>
+        <div class="conf-event">5° Retreat Scientifico, Dipartimento di Biologia, Padova — May 2022</div>
+      </div>
+    </div>
+
+  </div>
+
+  <h3 class="sub-section-title">Workshops & Training</h3>
+  <div class="conf-grid">
+
+    <div class="conf-item">
+      <span class="conf-badge invited">🪐 ESA</span>
+      <div>
+        <div class="conf-title">Introduction to Planetary Protection</div>
+        <div class="conf-event">European Space Agency — Fraunhofer IPA, Stuttgart, Germany · September–October 2025</div>
+      </div>
+    </div>
+
+    <div class="conf-item">
+      <span class="conf-badge talk">🔭 INAF</span>
+      <div>
+        <div class="conf-title">Rosetta e la Cometa</div>
+        <div class="conf-event">Istituto Nazionale di Astrofisica — Osservatorio Astronomico di Capodimonte, Napoli · June 2024</div>
+      </div>
+    </div>
+
+    <div class="conf-item">
+      <span class="conf-badge invited">🖥️ ICME 13</span>
+      <div>
+        <div class="conf-title">Crash course on Nanopore sequencing for microbial ecology</div>
+        <div class="conf-event">ICME 13 — CNR-IRSA, Roma — March 2024</div>
+      </div>
+    </div>
+
+    <div class="conf-item">
+      <span class="conf-badge invited">🧬 ICME</span>
+      <div>
+        <div class="conf-title">Crash Course on Nanopore Sequencing for Microbial Ecology (as Participant)</div>
+        <div class="conf-event">ICME 12 — CNR-IRSA, Verbania · September 2023</div>
+      </div>
+    </div>
+
+    <div class="conf-item">
+      <span class="conf-badge poster">⛰️ ICDP</span>
+      <div>
+        <div class="conf-title">DIVE Science Workshop — Drilling into the Ivrea-Verbano Zone</div>
+        <div class="conf-event">ICDP — Romagnano Sesia, Novara · July 2024</div>
+      </div>
+    </div>
+
+    <div class="conf-item">
+      <span class="conf-badge talk">💻 HPC</span>
+      <div>
+        <div class="conf-title">High Performance Bioinformatics</div>
+        <div class="conf-event">CINECA, Roma · December 2017</div>
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+<div class="section-divider"></div>
+
+<!-- AFFILIATIONS -->
+<section id="affiliations">
+  <div class="section-label">// 07 — Affiliations</div>
+  <h2 class="section-title">Affiliations & Initiatives</h2>
+  <div class="conf-grid">
+
+    <div class="conf-item">
+      <span class="conf-badge invited">🧫 MIRA</span>
+      <div>
+        <div class="conf-title">Co-founder & Bioinformatics Lead — MIRA Biotech</div>
+        <div class="conf-event">Deep-tech spin-off (CNR / Università della Tuscia) — Microbiome Intelligence platform turning complex microbial data into predictive insight for environmental, industrial, agricultural and space applications · <a href="https://www.mirabiotech.it" class="pub-doi" target="_blank">Website →</a></div>
+      </div>
+    </div>
+
+    <div class="conf-item">
+      <span class="conf-badge poster">🔬 MicrobEco</span>
+      <div>
+        <div class="conf-title">Member — MicrobEco</div>
+        <div class="conf-event">Scientific association of microbial ecologists — outreach, training (e.g. ICME Series) and international collaboration · <a href="https://www.microbeco.org" class="pub-doi" target="_blank">Website →</a></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label">// 08 — Skills</div>
+  <h2 class="section-title">Technical Skills</h2>
+
+
+  <div class="skills-grid">
+
+    <div class="skill-category">
+      <div class="skill-cat-header">
+        <div class="skill-cat-icon">🧬</div>
+        <div class="skill-cat-title">Bioinformatics & Genomics</div>
+      </div>
+      <div class="skill-pills">
+        <span class="skill-pill adv">Metagenomics</span>
+        <span class="skill-pill adv">16S rRNA Analysis</span>
+        <span class="skill-pill adv">MAG Assembly</span>
+        <span class="skill-pill adv">Spatial Transcriptomics</span>
+        <span class="skill-pill adv">RNA-seq</span>
+        <span class="skill-pill adv">Snakemake</span>
+        <span class="skill-pill mid">Machine Learning</span>
+        <span class="skill-pill mid">Network Analysis</span>
+        <span class="skill-pill mid">Nanopore Sequencing</span>
+      </div>
+    </div>
+
+    <div class="skill-category">
+      <div class="skill-cat-header">
+        <div class="skill-cat-icon">💻</div>
+        <div class="skill-cat-title">Programming Languages</div>
+      </div>
+      <div class="skill-pills">
+        <span class="skill-pill adv">Python</span>
+        <span class="skill-pill adv">R</span>
+        <span class="skill-pill adv">Bash / Unix</span>
+        <span class="skill-pill mid">JavaScript</span>
+        <span class="skill-pill mid">SQL / PostgreSQL</span>
+        <span class="skill-pill mid">Java</span>
+        <span class="skill-pill mid">HTML / CSS</span>
+        <span class="skill-pill bas">C</span>
+        <span class="skill-pill bas">Matlab</span>
+        <span class="skill-pill bas">Ruby</span>
+      </div>
+    </div>
+
+    <div class="skill-category">
+      <div class="skill-cat-header">
+        <div class="skill-cat-icon">⚙️</div>
+        <div class="skill-cat-title">Infrastructure & DevOps</div>
+      </div>
+      <div class="skill-pills">
+        <span class="skill-pill adv">Docker</span>
+        <span class="skill-pill adv">Singularity</span>
+        <span class="skill-pill adv">Slurm / HPC</span>
+        <span class="skill-pill adv">Git / GitHub / GitLab</span>
+        <span class="skill-pill adv">GitHub Actions</span>
+        <span class="skill-pill adv">Conda / Mamba</span>
+        <span class="skill-pill mid">Linux Admin</span>
+      </div>
+    </div>
+
+    <div class="skill-category">
+      <div class="skill-cat-header">
+        <div class="skill-cat-icon">📊</div>
+        <div class="skill-cat-title">Data & Visualisation</div>
+      </div>
+      <div class="skill-pills">
+        <span class="skill-pill adv">Bioconductor</span>
+        <span class="skill-pill adv">R packages (CRAN)</span>
+        <span class="skill-pill adv">Cytoscape.js</span>
+        <span class="skill-pill bas">D3.js</span>
+      </div>
+    </div>
+
+    <div class="skill-category">
+      <div class="skill-cat-header">
+        <div class="skill-cat-icon">🌐</div>
+        <div class="skill-cat-title">Development</div>
+      </div>
+      <div class="skill-pills">
+        <span class="skill-pill adv">React.js</span>
+        <span class="skill-pill adv">LaTeX</span>
+        <span class="skill-pill adv">SQLite</span>
+        <span class="skill-pill mid">PostgreSQL</span>
+        <span class="skill-pill mid">RocksDB</span>
+        <span class="skill-pill mid">NPM</span>
+        <span class="skill-pill mid">REST APIs</span>
+        <span class="skill-pill mid">CSS / SCSS</span>
+        <span class="skill-pill bas">D3.js</span>
+      </div>
+    </div>
+
+    <div class="skill-category">
+      <div class="skill-cat-header">
+        <div class="skill-cat-icon">🛰️</div>
+        <div class="skill-cat-title">Space & Earth Sciences</div>
+      </div>
+      <div class="skill-pills">
+        <span class="skill-pill mid">Earth Observation</span>
+        <span class="skill-pill mid">Geospatial Analysis</span>
+        <span class="skill-pill mid">Satellite Data Processing</span>
+        <span class="skill-pill mid">Astrobiology</span>
+        <span class="skill-pill mid">Planetary Analogues</span>
+        <span class="skill-pill mid">Geochemical Analysis</span>
+        <span class="skill-pill mid">Space Mission Design</span>
+        <span class="skill-pill bas">Image Processing</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label">// 09 — Contact</div>
+  <h2 class="section-title">Get in Touch</h2>
+  <div class="contact-simple">
+    <p>I am open to research collaborations, consulting opportunities in bioinformatics and space science, and invitations to speak or teach. If you are working on something at the intersection of computational biology, microbial ecology, or astrobiology — I would love to hear from you.</p>
+    <div class="contact-links">
+      <div class="contact-link-row">
+        <a href="mailto:davide.corso@irsa.cnr.it" class="contact-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          davide.corso@irsa.cnr.it
+        </a>
+        <button type="button" class="copy-btn" aria-label="Copy email address" onclick="copyEmail(this)">
+          <span class="copy-tooltip">Copied!</span>
+          <svg class="icon-copy" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <svg class="icon-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        </button>
+      </div>
+      <a href="https://github.com/davidecrs" class="contact-link" target="_blank">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+        github.com/davidecrs
+      </a>
+    </div>
+    <a href="mailto:davide.corso@irsa.cnr.it" class="cv-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      Send an Email
+    </a>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- DIVE -->
+<section id="dive">
+  <div class="section-label">// 10 — 2,518 M</div>
+  <h2 class="section-title">Alvin Dive on the East Pacific Rise</h2>
+  <div class="about-video dive-video">
+    <div class="about-video-wrapper">
+      <iframe src="https://www.youtube.com/embed/fnRnWKOgNk8?si=Tmaw2XOjGVKO60YL" title="Alvin Deep Dive #5229 — Davide Corso" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+    <div class="about-video-caption">
+      <span class="about-video-dot"></span>
+      <span>HOV Alvin Dive #5229 · East Pacific Rise · <strong>2,518 m</strong></span>
+    </div>
+  </div>
+</section>
+
+<button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+  <svg id="toggle-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <!-- bulb on (dark mode) -->
+    <path d="M9 21h6M12 3a6 6 0 0 1 4 10.5V17H8v-3.5A6 6 0 0 1 12 3z"/>
+    <line x1="12" y1="17" x2="12" y2="21"/>
+  </svg>
+</button>
+
+<div class="depth-gauge" id="depth-gauge" aria-hidden="true">
+  <div class="depth-track" id="depth-track">
+    <div class="depth-line"></div>
+    <div class="depth-fill" id="depth-fill"></div>
+    <div class="depth-marker-dot" id="depth-marker"></div>
+    <div class="depth-tick major" style="top:0%">
+      <span class="dash"></span>
+      <span class="label">0 M<span class="sub">Surface</span></span>
+    </div>
+    <div class="depth-tick major" style="top:20%">
+      <span class="dash"></span>
+      <span class="label">500 M</span>
+    </div>
+    <div class="depth-tick major" style="top:40%">
+      <span class="dash"></span>
+      <span class="label">1,000 M</span>
+    </div>
+    <div class="depth-tick major" style="top:60%">
+      <span class="dash"></span>
+      <span class="label">1,500 M</span>
+    </div>
+    <div class="depth-tick major" style="top:80%">
+      <span class="dash"></span>
+      <span class="label">2,000 M</span>
+    </div>
+    <div class="depth-tick major" style="top:100%">
+      <span class="dash"></span>
+      <span class="label">2,518 M<span class="sub">HOV Alvin</span></span>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 Davide Corso</p>
+</footer>
+
+<script>
+// COPY EMAIL
+function copyEmail(btn) {
+  const email = 'davide.corso@irsa.cnr.it';
+  const showCopied = () => {
+    btn.classList.add('copied');
+    setTimeout(() => btn.classList.remove('copied'), 1500);
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(email).then(showCopied).catch(() => {
+      fallbackCopy(email);
+      showCopied();
+    });
+  } else {
+    fallbackCopy(email);
+    showCopied();
+  }
+}
+
+function fallbackCopy(text) {
+  const textarea = document.createElement('textarea');
+  textarea.value = text;
+  textarea.style.position = 'fixed';
+  textarea.style.opacity = '0';
+  document.body.appendChild(textarea);
+  textarea.select();
+  try { document.execCommand('copy'); } catch (e) {}
+  document.body.removeChild(textarea);
+}
+
+// STARFIELD
+const canvas = document.getElementById('starfield');
+const ctx = canvas.getContext('2d');
+let stars = [];
+let W, H;
+
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+
+let isLight = false;
+
+function initStars() {
+  stars = [];
+  for (let i = 0; i < 200; i++) {
+    stars.push({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      r: Math.random() * 1.2 + 0.2,
+      opacity: Math.random() * 0.45 + 0.1,
+      speed: Math.random() * 0.12 + 0.02,
+      pulse: Math.random() * Math.PI * 2
+    });
+  }
+}
+
+function drawStars() {
+  ctx.clearRect(0, 0, W, H);
+  stars.forEach(s => {
+    s.pulse += 0.008;
+    const o = Math.max(0, s.opacity + Math.sin(s.pulse) * 0.1);
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fillStyle = isLight
+      ? `rgba(60,80,120,${o * 0.55})`
+      : `rgba(0,200,255,${o})`;
+    ctx.fill();
+    s.y -= s.speed;
+    if (s.y < -5) { s.y = H + 5; s.x = Math.random() * W; }
+  });
+  requestAnimationFrame(drawStars);
+}
+
+resize();
+initStars();
+drawStars();
+window.addEventListener('resize', () => { resize(); initStars(); });
+
+// THEME TOGGLE
+const themeToggle = document.getElementById('theme-toggle');
+
+const iconOn = `<path d="M9 21h6M12 3a6 6 0 0 1 4 10.5V17H8v-3.5A6 6 0 0 1 12 3z"/><line x1="12" y1="17" x2="12" y2="21"/>`;
+const iconOff = `<path d="M9 21h6M12 3a6 6 0 0 1 4 10.5V17H8v-3.5A6 6 0 0 1 12 3z" stroke-dasharray="4 2" opacity="0.5"/><line x1="4" y1="4" x2="20" y2="20"/><line x1="12" y1="17" x2="12" y2="21"/>`;
+
+function setIcon(light) {
+  const svg = document.getElementById('toggle-icon');
+  svg.innerHTML = light ? iconOff : iconOn;
+}
+
+themeToggle.addEventListener('click', () => {
+  isLight = !isLight;
+  document.body.classList.toggle('light', isLight);
+  setIcon(isLight);
+  localStorage.setItem('theme', isLight ? 'light' : 'dark');
+});
+
+// Restore saved preference
+if (localStorage.getItem('theme') === 'light') {
+  isLight = true;
+  document.body.classList.add('light');
+  setIcon(true);
+}
+
+// CENTER NAV LOGO PRECISELY
+(function() {
+  const logo = document.querySelector('.nav-logo');
+  if (!logo) return;
+  // Use canvas to measure actual text width
+  const canvas = document.createElement('canvas');
+  const ctx2 = canvas.getContext('2d');
+  const style = window.getComputedStyle(logo);
+  ctx2.font = `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
+  const text = 'D·C';
+  const measured = ctx2.measureText(text);
+  // letter-spacing adds space after last char — compensate by shifting left half that amount
+  const ls = parseFloat(style.letterSpacing) || 0;
+  logo.style.paddingRight = '0';
+  logo.style.paddingLeft = `0`;
+  // No letter-spacing so just ensure flex centering is exact
+  logo.style.justifyContent = 'center';
+})();
+
+// HAMBURGER MENU
+const hamburger = document.getElementById('hamburger');
+const drawer = document.getElementById('nav-drawer');
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('open');
+  drawer.classList.toggle('open');
+});
+function closeDrawer() {
+  hamburger.classList.remove('open');
+  drawer.classList.remove('open');
+}
+// Click outside modal closes it
+drawer.addEventListener('click', (e) => {
+  if (e.target === drawer) closeDrawer();
+});
+
+// DEPTH GAUGE — fill tracks scroll through the whole page, 0 M at the
+// top down to 2,518 M at the very bottom, where the HOV Alvin video is.
+(function() {
+  const track = document.getElementById('depth-track');
+  const fill = document.getElementById('depth-fill');
+  const marker = document.getElementById('depth-marker');
+  if (!track || !fill) return;
+
+  // Minor tick marks between the labeled ones, just for visual rhythm.
+  [10, 30, 50, 70, 90].forEach(pct => {
+    const tick = document.createElement('div');
+    tick.className = 'depth-tick minor';
+    tick.style.top = pct + '%';
+    tick.innerHTML = '<span class="dash"></span>';
+    track.appendChild(tick);
+  });
+
+  function maxScroll() {
+    return Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+  }
+
+  function update() {
+    const pct = Math.min(100, Math.max(0, (window.scrollY / maxScroll()) * 100));
+    fill.style.height = pct + '%';
+    if (marker) marker.style.top = pct + '%';
+  }
+
+  function scrollToPct(pct) {
+    window.scrollTo({ top: (pct / 100) * maxScroll(), behavior: 'smooth' });
+  }
+
+  // Click a major tick to jump straight to that point in the page.
+  track.querySelectorAll('.depth-tick.major').forEach(tick => {
+    tick.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const pct = parseFloat(tick.style.top);
+      scrollToPct(pct);
+    });
+  });
+
+  // Click anywhere on the track to seek proportionally, like a scrollbar.
+  track.addEventListener('click', (e) => {
+    const rect = track.getBoundingClientRect();
+    const pct = ((e.clientY - rect.top) / rect.height) * 100;
+    scrollToPct(Math.min(100, Math.max(0, pct)));
+  });
+
+  update();
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  window.addEventListener('load', update);
+})();
+</script>
+
+</body>
+</html>
