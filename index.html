@@ -8,6 +8,18 @@
 <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16.png">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+
+<!-- Open Graph / social link preview -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Davide Corso — Bioinformatician & Astrobiologist">
+<meta property="og:description" content="Postdoctoral Research Fellow at CNR-IRSA, bridging microbial ecology, metagenomics and space science — from deep-sea hydrothermal vents to Martian analogues.">
+<meta property="og:image" content="https://davidecrs.github.io/img/IMG_0294.jpg">
+<meta property="og:url" content="https://davidecrs.github.io/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Davide Corso — Bioinformatician & Astrobiologist">
+<meta name="twitter:description" content="Postdoctoral Research Fellow at CNR-IRSA, bridging microbial ecology, metagenomics and space science — from deep-sea hydrothermal vents to Martian analogues.">
+<meta name="twitter:image" content="https://davidecrs.github.io/img/IMG_0294.jpg">
+<meta name="description" content="Davide Corso — Postdoctoral Research Fellow at CNR-IRSA. Computational biologist working across microbial ecology, metagenomics and astrobiology.">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -672,12 +684,15 @@
     align-items: start;
   }
 
+  .about-text {
+    max-width: 820px;
+  }
+
   .about-text p {
     color: var(--text2);
     margin-bottom: 1.4rem;
     font-weight: 300;
     font-size: 1.1rem;
-    max-width: 720px;
   }
 
   .about-text p:last-child { margin-bottom: 0; }
@@ -778,7 +793,6 @@
   .research-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    max-width: 680px;
     gap: 1.4rem;
   }
 
@@ -920,7 +934,7 @@
   }
 
   /* PUBLICATIONS */
-  .pub-section { margin-bottom: 3rem; max-width: 720px; }
+  .pub-section { margin-bottom: 3rem; max-width: 820px; }
 
   .pub-section-title {
     font-family: var(--mono);
@@ -973,6 +987,14 @@
     font-family: var(--mono);
     font-size: 0.88rem;
     color: var(--text2);
+  }
+
+  .pub-note {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--text3);
+    font-style: italic;
+    margin-top: 0.3rem;
   }
 
   .pub-doi {
@@ -1307,6 +1329,12 @@
     border: 1px solid rgba(255,215,0,0.2);
   }
 
+  .conf-badge.pending {
+    color: #ffa94d;
+    background: rgba(255,169,77,0.08);
+    border: 1px solid rgba(255,169,77,0.2);
+  }
+
   .conf-title {
     font-size: 1rem;
     color: var(--text);
@@ -1498,7 +1526,36 @@
   }
 
   .contact-simple {
-    max-width: 560px;
+    max-width: 640px;
+  }
+
+  .dive-teaser {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 3.5rem;
+    text-decoration: none;
+    color: var(--text3);
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    max-width: 640px;
+    transition: color 0.2s;
+  }
+
+  .dive-teaser-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+    transition: background 0.2s;
+  }
+
+  .dive-teaser:hover {
+    color: var(--accent);
+  }
+
+  .dive-teaser:hover .dive-teaser-line {
+    background: var(--accent);
   }
 
   .contact-simple p {
@@ -1778,6 +1835,43 @@
         <div class="pub-title">Hydrogenotrophic metabolisms in the subsurface and their implications for underground hydrogen storage and natural hydrogen prospecting</div>
         <div class="pub-authors">Cascone M., Gargallo G.C., Migliaccio F., <strong>Corso D.</strong>, et al. (2026)</div>
         <div class="pub-journal">Earth-Science Reviews, 281, 105620 · <a href="https://doi.org/10.1016/j.earscirev.2026.105620" class="pub-doi" target="_blank">DOI →</a></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pub-section" style="margin-top: 2.5rem;">
+    <div class="pub-section-title" data-i18n="output.forthcoming">Forthcoming</div>
+
+    <div class="pub-item">
+      <div class="pub-number">[9]</div>
+      <div class="pub-content">
+        <div class="pub-title">Linking evaporitic crust texture to microbial community structure in a hypersaline environment</div>
+        <div class="pub-authors">Cassarìo A., <strong>Corso D.*</strong>, Franchi F., Amalfitano S., Kahsay T.H., Pacelli C. <span class="conf-badge pending" data-i18n="output.peerReview">Peer Review</span></div>
+        <div class="pub-note" data-i18n="output.correspondingNote">*Corresponding author</div>
+      </div>
+    </div>
+
+    <div class="pub-item">
+      <div class="pub-number">[10]</div>
+      <div class="pub-content">
+        <div class="pub-title">Geomosaic: a flexible metagenomic pipeline combining read-based analysis, assemblies and MAGs with downstream analysis</div>
+        <div class="pub-authors"><strong>Corso D.</strong>, Gargallo C.G., Barosa B., Cordone A., Giovannelli D. <span class="conf-badge pending" data-i18n="output.internalReview">Internal Review</span></div>
+      </div>
+    </div>
+
+    <div class="pub-item">
+      <div class="pub-number">[11]</div>
+      <div class="pub-content">
+        <div class="pub-title">itGraph: novel visualization layout of regulatory networks highlights biological modules in pathways</div>
+        <div class="pub-authors"><strong>Corso D.</strong>, Romualdi C., Sales G. <span class="conf-badge pending" data-i18n="output.internalReview">Internal Review</span></div>
+      </div>
+    </div>
+
+    <div class="pub-item">
+      <div class="pub-number">[12]</div>
+      <div class="pub-content">
+        <div class="pub-title">Ironborn: Fe distribution in geothermal fluids and its influence on the biosphere</div>
+        <div class="pub-authors">Barosa B., <strong>Corso D.</strong>, et al. <span class="conf-badge pending" data-i18n="output.inPrep">In Preparation</span></div>
       </div>
     </div>
   </div>
@@ -2272,6 +2366,11 @@
       <span data-i18n="contact.sendEmail">Send an Email</span>
     </a>
   </div>
+
+  <a href="#dive" class="dive-teaser">
+    <span class="dive-teaser-line"></span>
+    <span class="dive-teaser-text" data-i18n="contact.diveTeaser">One more thing, 2,518 m down ↓</span>
+  </a>
 </section>
 
 <div class="section-divider"></div>
@@ -2365,6 +2464,9 @@ const translations = {
 
     "output.label": "// 02 — Scientific Output", "output.title": "Scientific Output",
     "output.publications": "Publications", "output.published": "Published", "output.tools": "Tools & Packages",
+    "output.forthcoming": "Forthcoming", "output.peerReview": "Peer Review", "output.inPrep": "In Preparation",
+    "output.internalReview": "Internal Review",
+    "output.correspondingNote": "*Corresponding author",
     "output.tool1.desc": "A flexible metagenomic pipeline combining read-based analysis, assemblies and MAGs with downstream biological and geochemical data integration. Designed for reproducibility and ease of use without deep bioinformatic expertise.",
     "output.tool2.desc": "An R package for multivariate data range visualisation, displaying 3–6 variables simultaneously with min/max and mean for each — ideal for comparing environmental profiles across sampling sites.",
     "output.tool3.desc": "An R/Bioconductor wrapper for the SpatialDE Python library, enabling identification of spatially variable genes in spatial transcriptomics data directly from R with a native Bioconductor interface.",
@@ -2418,6 +2520,7 @@ const translations = {
     "contact.label": "// 09 — Contact", "contact.title": "Get in Touch",
     "contact.p1": "I am open to research collaborations, consulting opportunities in bioinformatics and space science, and invitations to speak or teach. If you are working on something at the intersection of computational biology, microbial ecology, or astrobiology — I would love to hear from you.",
     "contact.copied": "Copied!", "contact.sendEmail": "Send an Email",
+    "contact.diveTeaser": "One more thing, 2,518 m down ↓",
 
     "dive.label": "// 10 — 2,518 M", "dive.title": "Alvin Dive on the East Pacific Rise", "dive.surface": "Surface"
   },
@@ -2448,6 +2551,9 @@ const translations = {
 
     "output.label": "// 02 — Produzione Scientifica", "output.title": "Produzione Scientifica",
     "output.publications": "Pubblicazioni", "output.published": "Pubblicato", "output.tools": "Strumenti & Pacchetti",
+    "output.forthcoming": "In arrivo", "output.peerReview": "Peer Review", "output.inPrep": "In preparazione",
+    "output.internalReview": "Revisione Interna",
+    "output.correspondingNote": "*Autore corrispondente",
     "output.tool1.desc": "Una pipeline metagenomica flessibile che combina analisi read-based, assembly e MAGs con l'integrazione a valle di dati biologici e geochimici. Progettata per essere riproducibile e utilizzabile senza competenze bioinformatiche avanzate.",
     "output.tool2.desc": "Un pacchetto R per la visualizzazione di intervalli di dati multivariati, che mostra da 3 a 6 variabili contemporaneamente con minimo, massimo e media per ciascuna — ideale per confrontare profili ambientali tra diversi siti di campionamento.",
     "output.tool3.desc": "Un wrapper R/Bioconductor per la libreria Python SpatialDE, che consente di identificare geni spazialmente variabili in dati di trascrittomica spaziale direttamente da R, con un'interfaccia Bioconductor nativa.",
@@ -2501,6 +2607,7 @@ const translations = {
     "contact.label": "// 09 — Contatti", "contact.title": "Contattami",
     "contact.p1": "Sono aperto a collaborazioni di ricerca, opportunità di consulenza in bioinformatica e scienze spaziali, e inviti a tenere seminari o lezioni. Se stai lavorando su qualcosa all'intersezione tra biologia computazionale, ecologia microbica o astrobiologia — scrivimi, mi farebbe piacere sentirti.",
     "contact.copied": "Copiato!", "contact.sendEmail": "Invia una Email",
+    "contact.diveTeaser": "Un'ultima cosa, 2.518 m più giù ↓",
 
     "dive.label": "// 10 — 2.518 M", "dive.title": "Immersione Alvin sulla Dorsale del Pacifico Orientale", "dive.surface": "Superficie"
   }
