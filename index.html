@@ -2451,10 +2451,13 @@
 </footer>
 
 <script>
-// Scroll to top without adding #hero to the URL
+// Scroll to top without adding #hero to the URL, and clear any existing hash
 function scrollToTop(e) {
   if (e) e.preventDefault();
   window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (window.location.hash) {
+    history.replaceState(null, '', window.location.pathname + window.location.search);
+  }
 }
 
 // LANGUAGE TOGGLE (EN default / IT)
