@@ -357,6 +357,66 @@
     text-decoration-thickness: 1px;
   }
 
+  /* MORE dropdown */
+  .nav-more {
+    position: relative;
+  }
+
+  .nav-more > a {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    cursor: pointer;
+  }
+
+  .nav-more-caret {
+    display: inline-block;
+    transition: transform 0.2s;
+    font-size: 0.65rem;
+  }
+
+  .nav-more:hover .nav-more-caret {
+    transform: rotate(180deg);
+  }
+
+  .nav-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 1rem;
+    list-style: none;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.6rem;
+    min-width: 200px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.35);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(6px);
+    transition: opacity 0.2s, transform 0.2s, visibility 0.2s;
+    z-index: 200;
+  }
+
+  .nav-more:hover .nav-dropdown,
+  .nav-more:focus-within .nav-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .nav-dropdown li a {
+    display: block;
+    padding: 0.55rem 0.8rem;
+    border-radius: 6px;
+    white-space: nowrap;
+  }
+
+  .nav-dropdown li a:hover {
+    background: var(--bg);
+    text-decoration: none;
+  }
+
   /* HAMBURGER */
   .nav-hamburger {
     display: none;
@@ -1690,16 +1750,21 @@
   </div>
   <ul class="nav-links">
     <li><a href="#about" data-i18n="nav.about">About</a></li>
-    <li><a href="#research" data-i18n="nav.research">Research</a></li>
-    <li><a href="#output" data-i18n="nav.output">Scientific Output</a></li>
     <li><a href="#field" data-i18n="nav.field">Field</a></li>
     <li><a href="#experience" data-i18n="nav.experience">Experience</a></li>
-    <li><a href="#education" data-i18n="nav.education">Education</a></li>
-    <li><a href="#academia" data-i18n="nav.academia">Academia</a></li>
-    <li><a href="#affiliations" data-i18n="nav.affiliations">Affiliations</a></li>
     <li><a href="#skills" data-i18n="nav.skills">Skills</a></li>
     <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
-    <li><a href="#dive" data-i18n="nav.dive">Dive</a></li>
+    <li class="nav-more">
+      <a tabindex="0"><span data-i18n="nav.more">More</span> <span class="nav-more-caret">▾</span></a>
+      <ul class="nav-dropdown">
+        <li><a href="#research" data-i18n="nav.research">Research</a></li>
+        <li><a href="#output" data-i18n="nav.output">Scientific Output</a></li>
+        <li><a href="#education" data-i18n="nav.education">Education</a></li>
+        <li><a href="#academia" data-i18n="nav.academia">Academia</a></li>
+        <li><a href="#affiliations" data-i18n="nav.affiliations">Affiliations</a></li>
+        <li><a href="#dive" data-i18n="nav.dive">Dive</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
 
@@ -2514,7 +2579,7 @@ const translations = {
     "nav.home": "Home", "nav.about": "About", "nav.research": "Research",
     "nav.output": "Scientific Output", "nav.field": "Field", "nav.experience": "Experience",
     "nav.education": "Education", "nav.academia": "Academia", "nav.affiliations": "Affiliations",
-    "nav.skills": "Skills", "nav.dive": "Dive", "nav.contact": "Contact",
+    "nav.skills": "Skills", "nav.dive": "Dive", "nav.contact": "Contact", "nav.more": "More",
 
     "hero.label": "Researcher · Bioinformatician · Astrobiologist",
     "hero.tagline": "Bridging microbial ecology, metagenomics and space science — from deep-sea hydrothermal vents to Martian analogues.",
@@ -2601,7 +2666,7 @@ const translations = {
     "nav.home": "Home", "nav.about": "Chi sono", "nav.research": "Ricerca",
     "nav.output": "Produzione Scientifica", "nav.field": "Sul Campo", "nav.experience": "Esperienza",
     "nav.education": "Formazione", "nav.academia": "Accademia", "nav.affiliations": "Affiliazioni",
-    "nav.skills": "Competenze", "nav.dive": "Immersione", "nav.contact": "Contatti",
+    "nav.skills": "Competenze", "nav.dive": "Immersione", "nav.contact": "Contatti", "nav.more": "Altro",
 
     "hero.label": "Ricercatore · Bioinformatico · Astrobiologo",
     "hero.tagline": "Un ponte tra ecologia microbica, metagenomica e scienze spaziali — dalle sorgenti idrotermali degli abissi agli analoghi marziani.",
