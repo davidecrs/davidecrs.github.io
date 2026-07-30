@@ -280,7 +280,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1.2rem 4rem;
+    padding: 1.2rem 5rem 1.2rem 4rem;
     background: rgba(11,18,40,0.92);
     backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border);
@@ -336,8 +336,14 @@
 
   .nav-links {
     display: flex;
+    align-items: center;
     gap: 2.5rem;
     list-style: none;
+  }
+
+  .nav-links li {
+    display: flex;
+    align-items: center;
   }
 
   .nav-links a {
@@ -454,6 +460,8 @@
     display: flex;
     align-items: center;
     gap: 1.1rem;
+    min-width: 42px;
+    justify-content: flex-end;
   }
 
   /* LANGUAGE TOGGLE — smaller, stacked below the theme toggle */
