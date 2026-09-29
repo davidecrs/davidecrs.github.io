@@ -1001,9 +1001,17 @@
 
   .software-header {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
     margin-bottom: 0.8rem;
+  }
+
+  .software-links {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.6rem;
   }
 
   .software-name {
@@ -1453,6 +1461,18 @@
     color: #ffa94d;
     background: rgba(255,169,77,0.08);
     border: 1px solid rgba(255,169,77,0.2);
+  }
+
+  .conf-badge.internal {
+    color: var(--accent);
+    background: rgba(0,200,255,0.08);
+    border: 1px solid rgba(0,200,255,0.2);
+  }
+
+  .conf-badge.inprep {
+    color: var(--text3);
+    background: rgba(140,150,165,0.08);
+    border: 1px solid var(--border);
   }
 
   .conf-title {
@@ -1957,13 +1977,22 @@
         <div class="pub-journal">Earth-Science Reviews, 281, 105620 · <a href="https://doi.org/10.1016/j.earscirev.2026.105620" class="pub-doi" target="_blank">DOI →</a></div>
       </div>
     </div>
+
+    <div class="pub-item">
+      <div class="pub-number">[9]</div>
+      <div class="pub-content">
+        <div class="pub-title">Geomosaic: A Flexible Bioinformatics Platform Integrating Complementary Metagenomic Analyses from Sequencing Reads to Genomes</div>
+        <div class="pub-authors"><strong>Corso D.</strong>, Taccaliti E., Barosa B., Giovannelli D. (2026)</div>
+        <div class="pub-journal">Preprint, Bioinformatics · <a href="https://doi.org/10.64898/2026.09.05.749574" class="pub-doi" target="_blank">DOI →</a> · <span class="conf-badge pending" data-i18n="output.peerReview">Peer Review</span></div>
+      </div>
+    </div>
   </div>
 
   <div class="pub-section" style="margin-top: 2.5rem;">
     <div class="pub-section-title" data-i18n="output.forthcoming">Forthcoming</div>
 
     <div class="pub-item">
-      <div class="pub-number">[9]</div>
+      <div class="pub-number">[10]</div>
       <div class="pub-content">
         <div class="pub-title">Linking evaporitic crust texture to microbial community structure in a hypersaline environment</div>
         <div class="pub-authors">Cassarìo A., <strong>Corso D.*</strong>, Franchi F., Amalfitano S., Kahsay T.H., Pacelli C. <span class="conf-badge pending" data-i18n="output.peerReview">Peer Review</span></div>
@@ -1972,18 +2001,10 @@
     </div>
 
     <div class="pub-item">
-      <div class="pub-number">[10]</div>
-      <div class="pub-content">
-        <div class="pub-title">Geomosaic: a flexible metagenomic pipeline combining read-based analysis, assemblies and MAGs with downstream analysis</div>
-        <div class="pub-authors"><strong>Corso D.</strong>, Taccaliti E., Gargallo G.C., Barosa B., Giovannelli D. <span class="conf-badge pending" data-i18n="output.internalReview">Internal Review</span></div>
-      </div>
-    </div>
-
-    <div class="pub-item">
       <div class="pub-number">[11]</div>
       <div class="pub-content">
         <div class="pub-title">itGraph: novel visualization layout of regulatory networks highlights biological modules in pathways</div>
-        <div class="pub-authors"><strong>Corso D.</strong>, Romualdi C., Sales G. <span class="conf-badge pending" data-i18n="output.internalReview">Internal Review</span></div>
+        <div class="pub-authors"><strong>Corso D.</strong>, Romualdi C., Sales G. <span class="conf-badge internal" data-i18n="output.internalReview">Internal Review</span></div>
       </div>
     </div>
 
@@ -1991,7 +2012,7 @@
       <div class="pub-number">[12]</div>
       <div class="pub-content">
         <div class="pub-title">Ironborn: Fe distribution in geothermal fluids and its influence on the biosphere</div>
-        <div class="pub-authors">Barosa B., <strong>Corso D.</strong>, et al. <span class="conf-badge pending" data-i18n="output.inPrep">In Preparation</span></div>
+        <div class="pub-authors">Barosa B., <strong>Corso D.</strong>, et al. <span class="conf-badge inprep" data-i18n="output.inPrep">In Preparation</span></div>
       </div>
     </div>
 
@@ -1999,7 +2020,7 @@
       <div class="pub-number">[13]</div>
       <div class="pub-content">
         <div class="pub-title">Polygons plot: a new aesthetics for visualizing multivariate data</div>
-        <div class="pub-authors">Giovannelli D., <strong>Corso D.</strong>, et al. <span class="conf-badge pending" data-i18n="output.internalReview">Internal Review</span></div>
+        <div class="pub-authors">Giovannelli D., <strong>Corso D.</strong>, et al. <span class="conf-badge internal" data-i18n="output.internalReview">Internal Review</span></div>
       </div>
     </div>
   </div>
@@ -2010,7 +2031,10 @@
     <div class="software-card">
       <div class="software-header">
         <div class="software-name">Geomosaic</div>
-        <a href="https://github.com/giovannellilab/Geomosaic" class="software-link" target="_blank">GitHub →</a>
+        <div class="software-links">
+          <a href="https://github.com/giovannellilab/Geomosaic" class="software-link" target="_blank">GitHub →</a>
+          <a href="https://doi.org/10.64898/2026.09.05.749574" class="software-link" target="_blank">Paper →</a>
+        </div>
       </div>
       <p class="software-desc" data-i18n="output.tool1.desc">A flexible metagenomic pipeline combining read-based analysis, assemblies and MAGs with downstream biological and geochemical data integration. Designed for reproducibility and ease of use without deep bioinformatic expertise.</p>
       <div class="tags">
