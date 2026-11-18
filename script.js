@@ -39,7 +39,7 @@ const translations = {
     "output.forthcoming": "Forthcoming", "output.peerReview": "Peer Review", "output.inPrep": "In Preparation",
     "output.internalReview": "Internal Review",
     "output.correspondingNote": "*Corresponding author",
-    "output.tool1.desc": "A flexible metagenomic pipeline combining read-based analysis, assemblies and MAGs with downstream biological and geochemical data integration. Designed for reproducibility and ease of use without deep bioinformatic expertise.",
+    "output.tool1.desc": "A flexible metagenomic pipeline combining read-based analysis, assemblies and MAGs with downstream biological and geochemical data integration. Designed for reproducibility and ease of use without deep bioinformatic expertise. 28 modules integrating 39 packages and custom implementations.",
     "output.tool2.desc": "An R package for multivariate data range visualisation, displaying 3–6 variables simultaneously with min/max and mean for each — ideal for comparing environmental profiles across sampling sites.",
     "output.tool3.desc": "An R/Bioconductor wrapper for the SpatialDE Python library, enabling identification of spatially variable genes in spatial transcriptomics data directly from R with a native Bioconductor interface.",
     "output.tool4.desc": "A web application for interactive visualisation of biological regulatory networks, combining multiple layout algorithms and network types to highlight functional modules within biological pathways.",
@@ -49,6 +49,8 @@ const translations = {
     "field.item1.desc": "Participated as starboard observer aboard the deep-submergence vehicle HOV Alvin for an 8-hour dive to sample hydrothermal vent fluids and biofilms at the Tica and Biovent sites.",
     "field.item2.desc": "31-day NSF-funded oceanographic cruise aboard the WHOI research vessel Atlantis. Sampled high- and low-temperature hydrothermal vent fluids at 2,500 m depth using titanium syringe samplers at sites Tica, Biovent, Bio9, L-Vent and V-Vent.",
     "field.item3.desc": "Participated in the International Continental Drilling Program campaign, responsible for collection, processing and preservation of rock core samples from the lower continental crust exposed at the Ivrea-Verbano Zone.",
+    "field.item6.desc": "Water and sediment sampling in methane-rich volcanic lakes to study the microbial communities involved in the methane cycle, within the METHAB project (Methane and Habitability, INAF).",
+    "field.item7.desc": "Sampling of waters, sediments and soils in an area with geological gas emissions (CO₂, H₂S, CH₄) to study microbial communities in extreme environments, within the METHAB project.",
     "field.item4.desc": "Multiple sampling campaigns across 2025 to characterise the natural geochemical background of groundwater and soil in the Sacco River national interest site (SIN), in collaboration with CNR-IRSA and ARPA Lazio.",
 
     "experience.label": "// 04 — Experience", "experience.title": "Experience",
@@ -79,8 +81,6 @@ const translations = {
     "academia.conferences": "Conferences & Talks", "academia.workshops": "Workshops & Training",
 
     "affiliations.label": "// 07 — Affiliations", "affiliations.title": "Affiliations & Initiatives",
-    "affiliations.mira.title": "Co-founder & Bioinformatics Lead — MIRA Biotech",
-    "affiliations.mira.desc": "Deep-tech spin-off (CNR / Università della Tuscia) — Microbiome Intelligence platform turning complex microbial data into predictive insight for environmental, industrial, agricultural and space applications · <a href=\"https://www.mirabiotech.it\" class=\"pub-doi\" target=\"_blank\">Website →</a>",
     "affiliations.microbeco.title": "Member — MicrobEco",
     "affiliations.microbeco.desc": "Scientific association of microbial ecologists — outreach, training (e.g. ICME Series) and international collaboration · <a href=\"https://www.microbeco.org\" class=\"pub-doi\" target=\"_blank\">Website →</a>",
 
@@ -96,7 +96,7 @@ const translations = {
 
     "dive.label": "// 10 — 2,518 M", "dive.title": "Alvin Dive on the East Pacific Rise", "dive.surface": "Surface",
 
-    "misc.lastUpdated": "Last updated: Nov 16, 2026"
+    "misc.lastUpdated": "Last updated: Nov 18, 2026"
   },
   it: {
     "nav.home": "Home", "nav.about": "Chi sono", "nav.research": "Ricerca",
@@ -128,7 +128,7 @@ const translations = {
     "output.forthcoming": "In arrivo", "output.peerReview": "Peer Review", "output.inPrep": "In preparazione",
     "output.internalReview": "Revisione Interna",
     "output.correspondingNote": "*Autore corrispondente",
-    "output.tool1.desc": "Una pipeline metagenomica flessibile che combina analisi read-based, assembly e MAGs con l'integrazione a valle di dati biologici e geochimici. Progettata per essere riproducibile e utilizzabile senza competenze bioinformatiche avanzate.",
+    "output.tool1.desc": "Una pipeline metagenomica flessibile che combina analisi read-based, assembly e MAGs con l'integrazione a valle di dati biologici e geochimici. Progettata per essere riproducibile e utilizzabile senza competenze bioinformatiche avanzate. 28 moduli che integrano 39 pacchetti e implementazioni custom.",
     "output.tool2.desc": "Un pacchetto R per la visualizzazione di intervalli di dati multivariati, che mostra da 3 a 6 variabili contemporaneamente con minimo, massimo e media per ciascuna — ideale per confrontare profili ambientali tra diversi siti di campionamento.",
     "output.tool3.desc": "Un wrapper R/Bioconductor per la libreria Python SpatialDE, che consente di identificare geni spazialmente variabili in dati di trascrittomica spaziale direttamente da R, con un'interfaccia Bioconductor nativa.",
     "output.tool4.desc": "Un'applicazione web per la visualizzazione interattiva di reti regolatorie biologiche, che combina diversi algoritmi di layout e tipologie di rete per evidenziare i moduli funzionali all'interno dei pathway biologici.",
@@ -138,6 +138,8 @@ const translations = {
     "field.item1.desc": "Ho partecipato come osservatore di dritta a bordo del veicolo per immersioni profonde HOV Alvin, in un'immersione di 8 ore per campionare fluidi idrotermali e biofilm nei siti Tica e Biovent.",
     "field.item2.desc": "Spedizione oceanografica di 31 giorni finanziata dalla NSF a bordo della nave da ricerca WHOI Atlantis. Campionamento di fluidi idrotermali ad alta e bassa temperatura a 2.500 m di profondità con campionatori a siringa in titanio nei siti Tica, Biovent, Bio9, L-Vent e V-Vent.",
     "field.item3.desc": "Ho partecipato alla campagna dell'International Continental Drilling Program, occupandomi della raccolta, elaborazione e conservazione di carote di roccia della crosta continentale inferiore affiorante nella Zona Ivrea-Verbano.",
+    "field.item6.desc": "Campionamento di acque e sedimenti in laghi vulcanici ricchi di metano per lo studio delle comunità microbiche coinvolte nel ciclo del metano, nell'ambito del progetto METHAB (Methane and Habitability, INAF).",
+    "field.item7.desc": "Campionamento di acque, sedimenti e suoli in un'area con emissioni di gas di origine geologica (CO₂, H₂S, CH₄) per lo studio delle comunità microbiche in ambienti estremi, nell'ambito del progetto METHAB.",
     "field.item4.desc": "Diverse campagne di campionamento nel corso del 2025 per caratterizzare il fondo geochimico naturale delle acque sotterranee e del suolo nel sito di interesse nazionale (SIN) del Fiume Sacco, in collaborazione con CNR-IRSA e ARPA Lazio.",
 
     "experience.label": "// 04 — Esperienza", "experience.title": "Esperienza",
@@ -168,8 +170,6 @@ const translations = {
     "academia.conferences": "Conferenze & Interventi", "academia.workshops": "Workshop & Formazione",
 
     "affiliations.label": "// 07 — Affiliazioni", "affiliations.title": "Affiliazioni & Iniziative",
-    "affiliations.mira.title": "Co-fondatore & Responsabile Bioinformatica — MIRA Biotech",
-    "affiliations.mira.desc": "Spin-off deep-tech (CNR / Università della Tuscia) — piattaforma di Microbiome Intelligence che trasforma dati microbici complessi in insight predittivi per applicazioni ambientali, industriali, agricole e spaziali · <a href=\"https://www.mirabiotech.it\" class=\"pub-doi\" target=\"_blank\">Sito web →</a>",
     "affiliations.microbeco.title": "Membro — MicrobEco",
     "affiliations.microbeco.desc": "Associazione scientifica di ecologi microbici — divulgazione, formazione (es. ICME Series) e collaborazione internazionale · <a href=\"https://www.microbeco.org\" class=\"pub-doi\" target=\"_blank\">Sito web →</a>",
 
@@ -185,7 +185,7 @@ const translations = {
 
     "dive.label": "// 10 — 2.518 M", "dive.title": "Immersione Alvin sulla Dorsale del Pacifico Orientale", "dive.surface": "Superficie",
 
-    "misc.lastUpdated": "Ultimo aggiornamento: 16 Nov 2026"
+    "misc.lastUpdated": "Ultimo aggiornamento: 18 Nov 2026"
   }
 };
 
